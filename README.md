@@ -1,22 +1,21 @@
-# Pasta de Atividades - Técnicas de Programação
+# Activity Folder - Programming Techniques
 
-## Sobre Mim
+## About Me
 
-- **Nome:** Pablo Henrique da Silva Andrade
-- **Matrícula:** 555989
-- **Faculdade:** Universidade Federal do Ceará (UFC)
-- **Curso:** Engenharia da Computação
+- **Name:** Pablo Henrique da Silva Andrade
+- **ID:** 555989
+- **University:** Federal University of Ceará (UFC)
+- **Major:** Computer Engineering
 
-## Sobre a Disciplina
+## About the Discipline
 
-Bem-vindo à pasta de atividades da disciplina de Técnicas de Programação! Esta pasta contém uma variedade de trabalhos, projetos e exercícios que refletem o meu progresso e aprendizado ao longo do curso de Engenharia da Computação na UFC.
+Welcome to the activity folder for the Programming Techniques course! This folder contains a variety of assignments, projects, and exercises that showcase my progress and learning throughout the Computer Engineering program at the Federal University of Ceará (UFC).
 
-## Conteúdo da Pasta
+## Folder Contents
 
-- **Projetos:** Projetos individuais e em grupo que aplicam os conceitos aprendidos em situações do mundo real.
-- **Exercícios:** Desafios práticos que reforçam a compreensão dos tópicos abordados.
-- **Trabalhos Práticos:** Atividades que demonstram a aplicação dos conhecimentos em programação.
-- **Relatórios:** Documentação detalhada dos projetos, apresentando processos e resultados.
+- **Projects:** Individual and group projects that apply the learned concepts to real-world scenarios.
+- **Exercises:** Practical challenges that reinforce understanding of the covered topics.
+- **Practical Assignments:** Activities demonstrating the application of programming knowledge.
+- **Reports:** Detailed project documentation, presenting processes and outcomes.
 
-*Última atualização: [26/08/2023]*
-
+*Last Update: [08/26/2023]*
