@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <title>Pegar seguidores</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    function getFollowers(username) {
+      // Cria um objeto `XMLHttpRequest`.
+      const xhrRequest = new XMLHttpRequest();
+
+      // Define o método HTTP da solicitação como "GET".
+      xhrRequest.open("GET", "/api/users/" + username + "/followers");
+
+      // Envia a solicitação.
+      xhrRequest.send();
+
+      // Verifica o código de status da resposta.
+      if (xhrRequest.status === 200) {
+        // Decodifica a resposta como JSON.
+        const followers = JSON.parse(xhrRequest.responseText);
+
+        // Retorna a lista de seguidores.
+        return followers.map(user => user.username);
+      } else {
+        // Lança um erro se a solicitação falhar.
+        throw new Error(xhrRequest.statusText);
+      }
+    }
+
+    // Obtém o nome de usuário da pessoa.
+    const username = document.querySelector("#username").value;
+
+    // Obtém a lista de seguidores da pessoa.
+    const followers = getFollowers(username);
+
+    // Exibe a lista de seguidores na console.
+    console.log(followers);
+  </script>
+
+  <input type="text" id="username" placeholder="Nome de usuário">
+</body>
+</html>
