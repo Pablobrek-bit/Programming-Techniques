@@ -18,4 +18,4 @@ Welcome to the activity folder for the Programming Techniques course! This folde
 - **Practical Assignments:** Activities demonstrating the application of programming knowledge.
 - **Reports:** Detailed project documentation, presenting processes and outcomes.
 
-*Last Update: [08/26/2023]*
+*Last Update: [08/31/2023]*
