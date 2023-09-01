@@ -1,4 +1,4 @@
-package Questoes;
+package Quests;
 
 import java.util.Scanner;
 
