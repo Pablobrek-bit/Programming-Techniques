@@ -4,8 +4,7 @@ public class Test {
         double[] vet2 = {2,3,1};
 
         Utilities util = new Utilities();
-        util.quest22d(5);
-
+        util.quest22c(5);
         
     }
 }
