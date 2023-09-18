@@ -1,10 +1,12 @@
 package Bean;
 
+import java.util.List;
+
 public class Sale {
 	private Client client;
-    private HotDog hotDog;
+    private List<HotDog> hotDog;
 
-    public Sale(Client client, HotDog hotDog) {
+    public Sale(Client client, List<HotDog> hotDog) {
         this.client = client;
         this.hotDog = hotDog;
     }
@@ -13,7 +15,7 @@ public class Sale {
         return client;
     }
 
-    public HotDog getHotDog() {
+    public List<HotDog> getHotDog() {
         return hotDog;
     }
     

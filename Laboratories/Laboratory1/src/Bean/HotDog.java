@@ -44,5 +44,12 @@ public class HotDog {
 	public void setDrink(DrinkEnum drink) {
 		this.drink = drink;
 	}
+
+	@Override
+	public String toString() {
+		return "HotDog [cheese=" + cheese + ", protein=" + protein + ", additionalIngredient=" + additionalIngredient
+				+ ", drink=" + drink + "]";
+	}
+	
 	
 }
