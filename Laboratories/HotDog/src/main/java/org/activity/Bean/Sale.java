@@ -1,9 +1,9 @@
-package Bean;
+package org.activity.Bean;
 
 import java.util.List;
 
 public class Sale {
-	private Client client;
+    private Client client;
     private List<HotDog> hotDog;
 
     public Sale(Client client, List<HotDog> hotDog) {
@@ -18,7 +18,7 @@ public class Sale {
     public List<HotDog> getHotDog() {
         return hotDog;
     }
-    
+
     @Override
     public String toString() {
         return "Sale{" +

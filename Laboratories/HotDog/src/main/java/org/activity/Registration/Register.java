@@ -1,19 +1,19 @@
-package Registration;
+package org.activity.Registration;
+
+import org.activity.Bean.Client;
+import org.activity.Bean.HotDog;
+import org.activity.Enums.CheeseEnum;
+import org.activity.Enums.DrinkEnum;
+import org.activity.Enums.ProteinEnum;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Bean.Client;
-import Bean.HotDog;
-import Enums.CheeseEnum;
-import Enums.DrinkEnum;
-import Enums.ProteinEnum;
-
 public class Register {
 
     public static Scanner cop = new Scanner(System.in);
-    
+
     public static Client registerClient() {
         System.out.println("Digite seu nome:");
         String name = cop.next();
@@ -22,7 +22,7 @@ public class Register {
 
         Client client = new Client(id, name);
         return client;
-        
+
     }
 
     public static HotDog registerHotDog(){
@@ -36,7 +36,7 @@ public class Register {
         CheeseEnum cheese = CheeseEnum.getCheese(cop.next());
 
         List<String> additionalIngredient = new ArrayList<String>();
-        
+
         System.out.println("Você quer batata palha? (sim/nao):");
         if(cop.next().equals("sim")){
             additionalIngredient.add("batata palha");
@@ -58,7 +58,7 @@ public class Register {
         }
 
         HotDog hotDog = new HotDog(cheese, protein, additionalIngredient, drink);
-        
+
         return hotDog;
 
     }

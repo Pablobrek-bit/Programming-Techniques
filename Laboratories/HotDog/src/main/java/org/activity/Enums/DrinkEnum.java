@@ -1,4 +1,5 @@
-package Enums;
+package org.activity.Enums;
+
 public enum DrinkEnum {
     COCA_COLA("Coca-cola"),
     DEL_RIO("Del-Rio"),
@@ -13,7 +14,7 @@ public enum DrinkEnum {
     public String getNome() {
         return nome;
     }
-    
+
     public static DrinkEnum getDrink(String nome) {
         switch (nome) {
             case "Coca-cola":
