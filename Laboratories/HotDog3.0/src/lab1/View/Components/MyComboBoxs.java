@@ -5,11 +5,13 @@ import java.awt.*;
 
 public class MyComboBoxs extends JPanel{
 
+    private JComboBox<String> comboBox;
+
     public MyComboBoxs(String[] itens){
         setOpaque(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Usar BoxLayout para centralizar verticalmente
 
-        JComboBox<String> comboBox = new JComboBox<>(itens);
+        comboBox = new JComboBox<>(itens);
         comboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Centralizar horizontalmente
 
         comboBox.setPreferredSize(new Dimension(385, 40));
@@ -19,5 +21,13 @@ public class MyComboBoxs extends JPanel{
         add(Box.createVerticalGlue()); // Adicionar espaço vertical
 
 
+    }
+
+    public void setSelectedIndex(int item) {
+        comboBox.setSelectedIndex(item);
+    }
+
+    public String getSelectedItem() {
+        return (String) comboBox.getSelectedItem();
     }
 }

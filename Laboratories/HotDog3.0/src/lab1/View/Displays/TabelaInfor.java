@@ -1,4 +1,6 @@
-package lab1.View;
+package lab1.View.Displays;
+
+import lab1.Services.Management;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -50,8 +52,22 @@ public class TabelaInfor extends JPanel{
         scrollPane.setBounds(150, 110, 880, 500);
         add(scrollPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+
     }
 
-
+    public void addRow(){
+        for(int i = 0; i < Management.sales.size(); i++){
+            model.addRow(new Object[]{
+                    Management.sales.get(i).getClient().getName(),
+                    Management.sales.get(i).getClient().getId(),
+                    Management.sales.get(i).getHotDog().getCheese(),
+                    Management.sales.get(i).getHotDog().getProtein(),
+                    Management.sales.get(i).getHotDog().getAdditional(),
+                    Management.sales.get(i).getHotDog().getDrink(),
+                    0
+            });
+        }
+    }
 
 }

@@ -3,8 +3,8 @@ package lab1.Model.People.Enums;
 public enum Protein {
 
     SALSICHA(1, 2.0),
-    SAUSAGE(2, 3.0),
-    CHICKEN(3, 2.5),
+    LINGUICA(2, 3.0),
+    FRANGO(3, 2.5),
     BACON(4, 3.5);
 
     private int id;

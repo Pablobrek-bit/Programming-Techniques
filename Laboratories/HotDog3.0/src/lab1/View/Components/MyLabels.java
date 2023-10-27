@@ -14,6 +14,17 @@ public class MyLabels extends JPanel {
         label.setForeground(Color.black);
         label.setFont(new Font("Arial", Font.BOLD, 20));
 
-        add(label, BorderLayout.CENTER);
+        add(label);
+    }
+
+    public MyLabels(String text, int fontSize){
+        setOpaque(false);
+        setLayout(new BorderLayout());
+
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.black);
+        label.setFont(new Font("Arial", Font.BOLD, fontSize));
+
+        add(label);
     }
 }

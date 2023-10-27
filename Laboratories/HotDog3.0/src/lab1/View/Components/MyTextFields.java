@@ -6,12 +6,14 @@ import java.awt.*;
 
 public class MyTextFields extends JPanel {
 
+    private JTextField textField;
+
     public MyTextFields(){
 
         setLayout(new GridBagLayout());
         setOpaque(false);
 
-        JTextField textField = new JTextField();
+        textField = new JTextField();
         textField.setPreferredSize(new Dimension(385, 40));
         textField.setFont(new Font("Arial", Font.BOLD, 15));
         textField.setOpaque(true);
@@ -23,5 +25,13 @@ public class MyTextFields extends JPanel {
         add(textField, gbc);
 
 
+    }
+
+    public String getText() {
+        return textField.getText();
+    }
+
+    public void setText(String text) {
+        textField.setText(text);
     }
 }

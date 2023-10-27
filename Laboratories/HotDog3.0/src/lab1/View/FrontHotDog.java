@@ -1,6 +1,7 @@
 package lab1.View;
 
 import lab1.View.Components.MyButtons;
+import lab1.View.Displays.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -9,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FrontHotDog extends JFrame {
-    private MakingSales makingSales = new MakingSales();
-    private TabelaInfor tabelaInfor = new TabelaInfor();
-    private DisplayReport displayReport = new DisplayReport();
-    private ListClients listClients = new ListClients();
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel cardPanel = new JPanel(cardLayout);
+
+    private final MenuHotDog menuHotDog = new MenuHotDog();
+    private final MakingSales makingSales = new MakingSales();
+    private final TabelaInfor tabelaInfor = new TabelaInfor();
+    private final DisplayReport displayReport = new DisplayReport();
+    private final ListClients listClients = new ListClients();
+    private final CardLayout cardLayout = new CardLayout();
+    private final JPanel cardPanel = new JPanel(cardLayout);
 
     public FrontHotDog() {
         setupComponents();
@@ -22,23 +25,24 @@ public class FrontHotDog extends JFrame {
     }
 
     public void setupComponents(){
-        this.setSize(800, 800);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new Color(64, 213, 213));
+        setSize(800, 800);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(new Color(64, 213, 213));
     }
 
     public void organize() {
         ButtonsLocale buttonsLocale = new ButtonsLocale();
         buttonsLocale.setPreferredSize(new Dimension(800, 75));
 
+        cardPanel.add(menuHotDog, "menu");
         cardPanel.add(makingSales, "realizarVendas");
         cardPanel.add(tabelaInfor, "tabelaInfor");
         cardPanel.add(displayReport, "mostrarRelatorio");
         cardPanel.add(listClients, "listarClientes");
 
-        cardLayout.show(cardPanel, "realizarVendas");
+        cardLayout.show(cardPanel, "menu");
 
         setLayout(new BorderLayout());
         add(buttonsLocale, BorderLayout.NORTH);
@@ -46,10 +50,10 @@ public class FrontHotDog extends JFrame {
     }
 
     class ButtonsLocale extends JPanel {
-        private MyButtons bRealizeVendas;
-        private MyButtons bListarVendas;
-        private MyButtons bMostrarRelatorio;
-        private MyButtons bListarClientes;
+        private final MyButtons bRealizeVendas;
+        private final MyButtons bListarVendas;
+        private final MyButtons bMostrarRelatorio;
+        private final MyButtons bListarClientes;
 
         public ButtonsLocale() {
             this.setOpaque(false);
@@ -71,6 +75,7 @@ public class FrontHotDog extends JFrame {
             bListarVendas.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    tabelaInfor.addRow();
                     cardLayout.show(cardPanel, "tabelaInfor");
                 }
             });

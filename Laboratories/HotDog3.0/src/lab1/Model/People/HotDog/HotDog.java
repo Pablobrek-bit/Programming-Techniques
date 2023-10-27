@@ -18,10 +18,10 @@ public class HotDog {
         super();
     }
 
-    public HotDog(Drink drink, Cheese cheese, Protein protein, List<Additional> additional) {
-        this.drink = drink;
-        this.cheese = cheese;
-        this.protein = protein;
+    public HotDog(String drink, String cheese, String protein, List<Additional> additional) {
+        this.drink = Drink.valueOf(drink);
+        this.cheese = Cheese.valueOf(cheese);
+        this.protein = Protein.valueOf(protein);
         this.additional = additional;
     }
 

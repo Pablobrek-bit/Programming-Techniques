@@ -3,9 +3,9 @@ public enum Cheese {
 
     //MOZZARELLA, PRATO, PARMESAN, COALHO
 
-    MOZZARELLA(1),
+    MUSSARELA(1),
     PRATO(2),
-    PARMESAN(3),
+    PARMESSAO(3),
     COALHO(4);
 
     private int id;

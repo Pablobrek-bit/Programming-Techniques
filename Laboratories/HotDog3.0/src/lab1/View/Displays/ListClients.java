@@ -1,4 +1,4 @@
-package lab1.View;
+package lab1.View.Displays;
 
 import lab1.View.Components.MyLabel;
 
@@ -6,9 +6,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class DisplayReport extends JPanel {
+public class ListClients extends JPanel {
 
-    public DisplayReport(){
+    public ListClients(){
         setupComponents();
         addComponents();
     }
@@ -20,6 +20,6 @@ public class DisplayReport extends JPanel {
     }
 
     private void addComponents() {
-        add(new MyLabel("Relatorio"));
+        add(new MyLabel("Listar clientes"));
     }
 }
