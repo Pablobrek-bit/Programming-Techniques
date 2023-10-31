@@ -1,6 +1,10 @@
 package lab1.Services;
 
+import lab1.Model.People.Client.Client;
 import lab1.Model.People.Sale.Sale;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Validations {
 
@@ -9,7 +13,7 @@ public class Validations {
     //caso bater então vai permitir a venda
     //caso não bater então vai retornar uma mensagem de erro
 
-    public static int byId(String name, String id){
+    public static int findUserByIdUser(String name, String id){
         if(id.isEmpty() || name.isEmpty()){
             return 0;
         } else {
@@ -22,7 +26,40 @@ public class Validations {
         }
         return 3;
     }
+
+    public static int findHotDogByIdUser(String id) {
+        int cont = 0;
+        if (id.isEmpty()) {
+            return 0;
+        } else {
+            for (int i = 0; i < Management.sales.size(); i++) {
+                Sale sale = Management.sales.get(i);
+                if (sale.getClient().getId().equals(id)) {
+                    cont++;
+                }
+            }
+        }
+        return cont;
+    }
+
+    public static List<Client> findUsers(){
+        List<Client> clients = new ArrayList<>();
+
+        for(int i = 0; i < Management.sales.size(); i++) {
+            System.out.println("Entrou dentro do for");
+            Sale sale = Management.sales.get(i);
+
+            if(!clients.contains(sale.getClient())){
+                System.out.println("Foi adicionado o cliente" + sale.getClient().getName());
+                clients.add(sale.getClient());
+            }
+
+        }
+        System.out.println("Tanto de clientes cadastrados: " + clients.size());
+        return clients;
+    }
 }
+
 
 
 

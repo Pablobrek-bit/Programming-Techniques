@@ -8,9 +8,12 @@ public class Sale {
     private Client client;
     private HotDog hotDog;
 
-    public Sale(Client client, HotDog hotDog) {
+    private Double value = 0.0;
+
+    public Sale(Client client, HotDog hotDog, Double value) {
         this.client = client;
         this.hotDog = hotDog;
+        this.value = value;
     }
 
     public Client getClient() {
@@ -19,6 +22,14 @@ public class Sale {
 
     public HotDog getHotDog() {
         return hotDog;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public String toString(){

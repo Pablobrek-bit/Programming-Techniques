@@ -75,6 +75,7 @@ public class FrontHotDog extends JFrame {
             bListarVendas.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    tabelaInfor.clearTable();
                     tabelaInfor.addRow();
                     cardLayout.show(cardPanel, "tabelaInfor");
                 }
@@ -90,6 +91,8 @@ public class FrontHotDog extends JFrame {
             bListarClientes.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    listClients.clearTable();
+                    listClients.addRow();
                     cardLayout.show(cardPanel, "listarClientes");
                 }
             });

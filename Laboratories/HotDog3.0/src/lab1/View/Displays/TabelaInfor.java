@@ -1,5 +1,6 @@
 package lab1.View.Displays;
 
+import lab1.Model.People.Sale.Sale;
 import lab1.Services.Management;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.util.List;
 
 public class TabelaInfor extends JPanel{
 
@@ -53,21 +55,33 @@ public class TabelaInfor extends JPanel{
         add(scrollPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-
     }
 
     public void addRow(){
-        for(int i = 0; i < Management.sales.size(); i++){
+        List<Sale> sales = Management.sales;
+        for (Sale sale : sales) {
             model.addRow(new Object[]{
-                    Management.sales.get(i).getClient().getName(),
-                    Management.sales.get(i).getClient().getId(),
-                    Management.sales.get(i).getHotDog().getCheese(),
-                    Management.sales.get(i).getHotDog().getProtein(),
-                    Management.sales.get(i).getHotDog().getAdditional(),
-                    Management.sales.get(i).getHotDog().getDrink(),
-                    0
+                    sale.getClient().getName(),
+                    sale.getClient().getId(),
+                    sale.getHotDog().getCheese(),
+                    sale.getHotDog().getProtein(),
+                    sale.getHotDog().getAdditional(),
+                    sale.getHotDog().getDrink(),
+                    sale.getValue()
             });
         }
+    }
+
+    public void clearTable(){
+        model.setRowCount(0);
+        model.setColumnCount(0);
+        model.addColumn("Name");
+        model.addColumn("Id");
+        model.addColumn("Option-Cheese");
+        model.addColumn("Option-Protein");
+        model.addColumn("Cheese");
+        model.addColumn("Drink");
+        model.addColumn("Value");
     }
 
 }
