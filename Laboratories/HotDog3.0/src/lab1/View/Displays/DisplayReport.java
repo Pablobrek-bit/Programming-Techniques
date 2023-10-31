@@ -7,8 +7,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-//No display vai ter que aparecer as seguintes coisas:
-
 
 
 public class DisplayReport extends JPanel {

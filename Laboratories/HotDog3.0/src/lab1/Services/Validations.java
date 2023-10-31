@@ -46,16 +46,13 @@ public class Validations {
         List<Client> clients = new ArrayList<>();
 
         for(int i = 0; i < Management.sales.size(); i++) {
-            System.out.println("Entrou dentro do for");
             Sale sale = Management.sales.get(i);
 
             if(!clients.contains(sale.getClient())){
-                System.out.println("Foi adicionado o cliente" + sale.getClient().getName());
                 clients.add(sale.getClient());
             }
 
         }
-        System.out.println("Tanto de clientes cadastrados: " + clients.size());
         return clients;
     }
 }

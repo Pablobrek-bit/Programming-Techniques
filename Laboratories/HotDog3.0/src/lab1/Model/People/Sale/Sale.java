@@ -8,12 +8,15 @@ public class Sale {
     private Client client;
     private HotDog hotDog;
 
-    private Double value = 0.0;
+    private Double value;
 
-    public Sale(Client client, HotDog hotDog, Double value) {
+    private Double discountAmount;
+
+    public Sale(Client client, HotDog hotDog, Double value, Double discountAmount) {
         this.client = client;
         this.hotDog = hotDog;
         this.value = value;
+        this.discountAmount = discountAmount;
     }
 
     public Client getClient() {

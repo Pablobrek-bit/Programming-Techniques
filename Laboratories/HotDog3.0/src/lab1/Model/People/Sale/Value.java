@@ -7,10 +7,11 @@ import lab1.Model.People.HotDog.HotDog;
 
 public class Value {
     private Double value = 0.0;
+    private Double discountAmount = 0.0;
 
     public Double calculateValue(HotDog hotDogs, int quantityHotDogs) {
 
-        for(int i = 0; i < quantityHotDogs; i++) {
+        for(int i = 0; i <= quantityHotDogs; i++) {
             Protein protein = hotDogs.getProtein();
             discount(protein, quantityHotDogs);
         }
@@ -18,7 +19,17 @@ public class Value {
 
     }
 
+    public Double calculateDiscont(HotDog hotDogs, int quantityHotDogs){
+
+        for(int i = 0; i <= quantityHotDogs; i++) {
+            Protein protein = hotDogs.getProtein();
+            setDiscountAmount(protein, quantityHotDogs);
+        }
+        return discountAmount;
+    }
+
     private void discount(Protein protein, int quantityHotDogs){
+
 
         if((protein == Protein.SALSICHA) && (quantityHotDogs > 2)){
             value += protein.getPrice() * 0.9;
@@ -30,26 +41,26 @@ public class Value {
         }
         else if((protein == Protein.BACON) && (quantityHotDogs > 3)){
             value += protein.getPrice() * 0.86;
+        } else {
+            value += protein.getPrice();
         }
     }
 
-//    public Client getClient() {
-//        return client;
-//    }
-//
-//    public void setClient(Client client) {
-//        this.client = client;
-//    }
-//
-//    public HotDog getHotDogs() {
-//        return hotDogs;
-//    }
-//
-//    public void setHotDogs(HotDog hotDogs) {
-//        this.hotDogs = hotDogs;
-//    }
-//
-//    public Double getValue() {
-//        return value;
-//    }
+    public void setDiscountAmount(Protein protein, int quantityHotDogs) {;
+        for (int i = 0; i < quantityHotDogs; i++) {
+
+            if ((protein == Protein.SALSICHA) && (quantityHotDogs > 2)) {
+                discountAmount += protein.getPrice() * 0.1;
+            } else if ((protein == Protein.LINGUICA) && (quantityHotDogs > 2)) {
+                discountAmount += protein.getPrice() * 0.12;
+            } else if ((protein == Protein.FRANGO) && (quantityHotDogs > 3)) {
+                discountAmount += protein.getPrice() * 0.13;
+            } else if ((protein == Protein.BACON) && (quantityHotDogs > 3)) {
+                discountAmount += protein.getPrice() * 0.14;
+            }
+        }
+    }
+
+
+
 }

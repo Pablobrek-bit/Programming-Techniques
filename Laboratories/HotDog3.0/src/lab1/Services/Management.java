@@ -39,7 +39,7 @@ public class Management {
             return false;
         }
 
-        sales.add(new Sale(client, hotDog, value.calculateValue(hotDog, Validations.findHotDogByIdUser(matricula))));
+        sales.add(new Sale(client, hotDog, value.calculateValue(hotDog, Validations.findHotDogByIdUser(matricula)), value.calculateDiscont(hotDog, Validations.findHotDogByIdUser(matricula))));
         System.out.println(sales.get(sales.size()-1).toString());
         return true;
     }
