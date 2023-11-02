@@ -3,6 +3,7 @@ package lab1.DAO;
 import lab1.Connection.ConnectionFactory;
 import lab1.Model.People.Client.Client;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +30,8 @@ public class ClientDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return clients;
     }
@@ -50,6 +53,8 @@ public class ClientDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return client;
     }
@@ -71,6 +76,8 @@ public class ClientDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return client;
     }
@@ -87,25 +94,32 @@ public class ClientDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
         }
         return client;
     }
 
-    public static Client insertUser(Client client){
+    public static void insertUser(Client client){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        //Client clientVerify = findUserbyId(client.getId());
 
-        try {
-            stmt = con.prepareStatement("INSERT INTO client (name, id) VALUES (?, ?)");
-            stmt.setString(1, client.getName());
-            stmt.setString(2, client.getId());
-            stmt.executeUpdate();
+            try {
+                stmt = con.prepareStatement("INSERT INTO client (id, nome, profissao) VALUES (?, ?, ?)");
+                stmt.setInt(1, Integer.parseInt(client.getId()));
+                stmt.setString(2, client.getName());
+                stmt.setString(3, "null");
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } finally {
+                ConnectionFactory.closeConnection(con, stmt);
+            }
         }
-        return client;
-    }
+
 
     public static void deleteUserbyId(String id){
         Connection con = ConnectionFactory.getConnection();
@@ -117,6 +131,8 @@ public class ClientDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 
@@ -130,6 +146,8 @@ public class ClientDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 }

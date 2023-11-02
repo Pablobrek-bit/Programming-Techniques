@@ -1,4 +1,4 @@
-package lab1.Model.People.Sale;
+package lab1.Services;
 
 import lab1.Model.People.Enums.Protein;
 import lab1.Model.People.HotDog.HotDog;

@@ -1,6 +1,8 @@
 package lab1.View.Displays;
 
+import lab1.Model.People.Client.Client;
 import lab1.Model.People.Enums.Additional;
+import lab1.Model.People.HotDog.HotDog;
 import lab1.Services.Management;
 import lab1.View.Components.*;
 
@@ -83,7 +85,7 @@ public class MakingSales extends JPanel {
                 String opcaoProteina = proteinaComboBox.getSelectedItem();
                 List<Additional> opcoesAdicionais = adicionaisCheckBoxes.getSelectedOptions();
                 String bebida = drinkComboBox.getSelectedItem();
-                if(Management.addSale(nome, matricula, bebida, opcaoQueijo, opcaoProteina, opcoesAdicionais)){
+                if(Management.addSale(new Client(nome, matricula), new HotDog(bebida, opcaoQueijo, opcaoProteina, opcoesAdicionais))){
                     JOptionPane.showMessageDialog(null, "Venda realizada com sucesso");
                     clearFields();
                 }
