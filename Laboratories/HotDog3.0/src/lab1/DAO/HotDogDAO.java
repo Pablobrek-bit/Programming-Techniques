@@ -2,28 +2,70 @@ package lab1.DAO;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import lab1.Connection.ConnectionFactory;
+import lab1.Model.People.Client.Client;
 import lab1.Model.People.Enums.Additional;
 import lab1.Model.People.HotDog.HotDog;
+import lab1.Services.Value;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HotDogDAO {
 
-    public static void createHotDog(HotDog hotDog, Double value){
+    public static void createHotDog(HotDog hotDog, Client client){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        Value value = new Value();
+
+        Integer quantity = HotDogDAO.getQuantityHotDogs(Integer.parseInt(client.getId()));
+        Double valor = value.calculateValue(hotDog, quantity);
+        String proteina = hotDog.getProtein().toString();
+        System.out.println("Tipo de proteina: " + proteina);
+
+        System.out.println("Adicionais: " + String.join(";", getAdditional(hotDog.getAdditional())));
 
         try {
-            stmt = con.prepareStatement("INSERT INTO hotdog (proteina, bebida, queijo, adicionais, valor) VALUES (?, ?, ?, ?, ?)");
+            stmt = con.prepareStatement("INSERT INTO hotdog (proteina, bebida, queijo, adicionais, valor, id_cliente) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, hotDog.getProtein().toString());
+            stmt.setString(2, hotDog.getDrink().toString());
+            stmt.setString(3, hotDog.getCheese().toString());
+            stmt.setString(4, String.join(";", getAdditional(hotDog.getAdditional())));
+            stmt.setDouble(5, valor);
+            stmt.setInt(6, Integer.parseInt(client.getId()));
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+
+
+
+    public static void updateHotDog(HotDog hotDog, Client client){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        Value value = new Value();
+
+        Integer quantity = HotDogDAO.getQuantityHotDogs(Integer.parseInt(client.getId()));
+        Double valor = value.calculateValue(hotDog, quantity);
+
+        try {
+            stmt = con.prepareStatement("UPDATE hotdog SET proteina = ?, bebida = ?, queijo = ?, adicionais = ?, valor = ? WHERE id_cliente = ?");
             stmt.setString(1, String.valueOf(hotDog.getProtein()));
             stmt.setString(2, String.valueOf(hotDog.getDrink()));
             stmt.setString(3, String.valueOf(hotDog.getCheese()));
             stmt.setString(4, String.join(";", getAdditional(hotDog.getAdditional())));
-            stmt.setDouble(5, value);
+            stmt.setDouble(5, valor);
+            stmt.setInt(6, Integer.parseInt(client.getId()));
+
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -41,6 +83,8 @@ public class HotDogDAO {
             stmt.setString(2, String.valueOf(hotDog.getDrink()));
             stmt.setString(3, String.valueOf(hotDog.getCheese()));
             stmt.setString(4, String.join(";", getAdditional(hotDog.getAdditional())));
+
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -48,40 +92,25 @@ public class HotDogDAO {
         }
     }
 
-//    public static void updateHotDog(HotDog newHotDog, HotDog oldHotDog){
-//        Connection con = ConnectionFactory.getConnection();
-//        PreparedStatement stmt = null;
-//
-//        try {
-//            stmt = con.prepareStatement("UPDATE hotdog SET proteina = ?, bebida = ?, queijo = ?, adicionais = ? WHERE proteina = ? AND bebida = ? AND queijo = ? AND adicionais = ?");
-//            stmt.setString(1, String.valueOf(newHotDog.getProtein()));
-//            stmt.setString(2, String.valueOf(newHotDog.getDrink()));
-//            stmt.setString(3, String.valueOf(newHotDog.getCheese()));
-//            stmt.setString(4, String.join(";", getAdditional(newHotDog.getAdditional())));
-//            stmt.setString(5, String.valueOf(oldHotDog.getProtein()));
-//            stmt.setString(6, String.valueOf(oldHotDog.getDrink()));
-//            stmt.setString(7, String.valueOf(oldHotDog.getCheese()));
-//            stmt.setString(8, String.join(";", getAdditional(oldHotDog.getAdditional())));
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            ConnectionFactory.closeConnection(con, stmt);
-//        }
-//    }
-
     public static Integer getQuantityHotDogs(Integer matricula){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        ResultSet rs = null;
         Integer quantity = 0;
 
         try {
-            stmt = con.prepareStatement("SELECT COUNT(*) FROM hotdog WHERE matricula = ?");
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM hotdog WHERE id_cliente = ?");
             stmt.setInt(1, matricula);
-            quantity = stmt.executeUpdate();
+            rs = stmt.executeQuery();
+
+            if(rs.next()){
+                quantity = rs.getInt(1);
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return quantity;
     }
@@ -89,16 +118,22 @@ public class HotDogDAO {
     public static Integer getIdHotDogbyIdUser(Integer matricula){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        ResultSet rs = null;
         Integer id = 0;
 
         try {
-            stmt = con.prepareStatement("SELECT id FROM hotdog WHERE matricula = ?");
+            stmt = con.prepareStatement("SELECT MAX(id) FROM hotdog WHERE id_cliente = ?");
             stmt.setInt(1, matricula);
-            id = stmt.executeUpdate();
+            rs = stmt.executeQuery();
+
+            if(rs.next()){
+                id = rs.getInt(1);
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt);
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return id;
     }

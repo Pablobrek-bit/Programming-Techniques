@@ -14,16 +14,22 @@ public class Management {
     public static List<Sale> sales = new ArrayList<>();
     private static Value value;
 
-//    private static Client createdClient(String name, String matricula){
-//        return new Client(name, matricula);
+//    private static void createdClient(Client client){
+//        ClientDAO.insertUser(client);
 //    }
 
-    private static void createdClient(Client client){
-        ClientDAO.insertUser(client);
+    private static Client createOrGetClient(Client client) {
+        Client existingClient = ClientDAO.findUserbyName(client.getName());
+        if (existingClient.getId().isEmpty()) {
+            ClientDAO.insertUser(client);
+            return client;
+        } else {
+            return existingClient;
+        }
     }
 
     private static void createdHotDog(HotDog hotDog, Client client){
-        HotDogDAO.createHotDog(hotDog, value.calculateValue(hotDog, HotDogDAO.getQuantityHotDogs(Integer.parseInt(client.getId()))));
+        HotDogDAO.createHotDog(hotDog, client);
     }
 
     private static void createdClientHotDog(Client client){
@@ -31,42 +37,11 @@ public class Management {
     }
 
     public static boolean addSale(Client client, HotDog hotDog){
-        createdClient(client);
+        client = createOrGetClient(client);
         createdHotDog(hotDog, client);
-
-
+        createdClientHotDog(client);
         return true;
     }
-//    private static HotDog createdHotDog(String drink, String cheese, String protein, List<Additional> additional){
-//
-//        return new HotDog(drink, cheese, protein, additional);
-//    }
-
-//    public static boolean addSale(String name, String matricula, String drink, String cheese, String protein, List<Additional> additional){
-//        value = new Value();
-//        Client client = createdClient(name, matricula);
-//        HotDog hotDog = createdHotDog(drink, cheese, protein, additional);
-//        int validationResult = Validations.findUserByIdUser(name, matricula);
-//
-//
-//        if(validationResult == -1) {
-//            JOptionPane.showMessageDialog(null, "Venda não permitida");
-//            return false;
-//        }
-//        if(validationResult == 0) {
-//            JOptionPane.showMessageDialog(null, "Matricula|Nome não pode ser vazio");
-//            return false;
-//        }
-//
-//        sales.add(new Sale(client, hotDog, value.calculateValue(hotDog, Validations.findHotDogByIdUser(matricula)), value.calculateDiscont(hotDog, Validations.findHotDogByIdUser(matricula))));
-//        System.out.println(sales.get(sales.size()-1).toString());
-//        return true;
-//    }
-
-
-
-
-
 
 
 }

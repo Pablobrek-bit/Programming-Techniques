@@ -82,9 +82,13 @@ public class MakingSales extends JPanel {
                 String nome = nomeTextField.getText();
                 String matricula = matriculaTextField.getText();
                 String opcaoQueijo = queijoComboBox.getSelectedItem();
+                System.out.println("Opcao queijo: " + opcaoQueijo);
                 String opcaoProteina = proteinaComboBox.getSelectedItem();
+                System.out.println("Opcao proteina: " + opcaoProteina);
                 List<Additional> opcoesAdicionais = adicionaisCheckBoxes.getSelectedOptions();
                 String bebida = drinkComboBox.getSelectedItem();
+                System.out.println("Bebida: " + bebida);
+
                 if(Management.addSale(new Client(nome, matricula), new HotDog(bebida, opcaoQueijo, opcaoProteina, opcoesAdicionais))){
                     JOptionPane.showMessageDialog(null, "Venda realizada com sucesso");
                     clearFields();

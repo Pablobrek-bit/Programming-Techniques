@@ -5,10 +5,10 @@ import java.sql.*;
 //Classe que vai ser responsavel por abrir e fechar a conexão
 public class ConnectionFactory {
 
-    public static final String DRIVER = "com.mysql.jdbc.Driver";
+    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String URL = "jdbc:mysql://localhost:3306/hotdog";
     public static final String USERNAME = "root";
-    public static final String PASSWORD = "familibrek";
+    public static final String PASSWORD = "familiabrek";
 
     public static Connection getConnection() {
         try {
