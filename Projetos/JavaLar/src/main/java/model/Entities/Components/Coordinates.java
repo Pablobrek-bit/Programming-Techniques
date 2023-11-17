@@ -1,5 +1,7 @@
 package model.Entities.Components;
 
+import java.util.Objects;
+
 //Class that will store the point at which the entities are in the system
 public class Coordinates {
 
@@ -28,5 +30,16 @@ public class Coordinates {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return x == that.x && y == that.y;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
 }

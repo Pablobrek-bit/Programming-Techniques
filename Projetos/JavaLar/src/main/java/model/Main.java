@@ -1,6 +1,6 @@
 package model;
 
-import model.View.Executable;
+import View.Pass.Executable;
 
 public class Main {
 

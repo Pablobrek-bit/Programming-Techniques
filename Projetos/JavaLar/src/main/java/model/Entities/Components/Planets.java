@@ -2,8 +2,10 @@ package model.Entities.Components;
 
 
 import model.Entities.BugsDevs.BugsDevs;
-import model.Calculations.Calculation;
+import Control.Calculations.Calculation;
 import model.Entities.BugsDevs.Verifications;
+
+import javax.swing.*;
 
 
 public abstract class Planets {
@@ -18,6 +20,8 @@ public abstract class Planets {
 	protected int hitDevs;
 	protected int hitBugs;
 	protected Location location;
+
+	protected ImageIcon imageIcon;
 
 	private void setAlive() {
 		if (dislocation <= 0) {
@@ -129,4 +133,10 @@ public abstract class Planets {
 	public double getYears() {
 		return years;
 	}
+
+	public ImageIcon getImageIcon() {
+		return imageIcon;
+	}
+
+
 }
