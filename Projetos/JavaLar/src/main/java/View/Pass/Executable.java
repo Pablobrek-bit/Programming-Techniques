@@ -1,9 +1,9 @@
 package View.Pass;
 
-import model.Entities.Components.Planets;
-import model.Entities.Components.SystemJavaLar;
-import model.Entities.Planets.*;
-import model.Entities.BugsDevs.BugsDevs;
+import Model.Entities.Components.Planets;
+import Model.Entities.Components.SystemJavaLar;
+import Model.Entities.Planets.*;
+import Model.Entities.BugsDevs.BugsDevs;
 
 import java.util.ArrayList;
 import java.util.List;

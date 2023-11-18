@@ -1,4 +1,4 @@
-package model.Entities.Components;
+package Model.Entities.Components;
 
 import java.util.Objects;
 

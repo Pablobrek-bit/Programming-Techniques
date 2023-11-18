@@ -1,6 +1,6 @@
 package View.Components;
 
-import model.Entities.Components.Coordinates;
+import Model.Entities.Components.Coordinates;
 
 import javax.swing.*;
 

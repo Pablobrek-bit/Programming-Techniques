@@ -1,10 +1,8 @@
 package View;
 
-import View.Containers.Universe.Universe;
-import model.Entities.Components.Planets;
-import model.Entities.Planets.*;
+import Model.Entities.Components.Planets;
+import Model.Entities.Planets.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,6 @@ public class ExecutableMove {
 
     private static List<Planets> instances(){
         List<Planets> planetsList = new ArrayList<>();
-
 
         planetsList.add(new Python());
         planetsList.add(new JS());

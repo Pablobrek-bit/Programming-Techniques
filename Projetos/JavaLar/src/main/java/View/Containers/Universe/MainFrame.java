@@ -2,8 +2,8 @@ package View.Containers.Universe;
 
 import View.Containers.Interaction.Buttons.Buttons;
 import View.Components.Create;
-import model.Entities.Components.Planets;
-import model.Entities.Planets.*;
+import Model.Entities.Components.Planets;
+import Model.Entities.Planets.*;
 
 import javax.swing.*;
 import java.awt.*;

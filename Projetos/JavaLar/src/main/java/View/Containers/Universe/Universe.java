@@ -2,9 +2,9 @@ package View.Containers.Universe;
 
 import View.Components.MyLabel;
 import View.Components.Create;
-import model.Entities.BugsDevs.BugsDevs;
-import model.Entities.Components.Coordinates;
-import model.Entities.Components.Planets;
+import Model.Entities.BugsDevs.BugsDevs;
+import Model.Entities.Components.Coordinates;
+import Model.Entities.Components.Planets;
 
 import javax.swing.*;
 import java.awt.*;

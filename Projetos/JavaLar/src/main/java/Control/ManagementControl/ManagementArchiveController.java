@@ -3,22 +3,23 @@ package Control.ManagementControl;
 import View.Containers.Interaction.Buttons.Buttons;
 import View.Containers.Universe.Universe;
 import View.ExecutableMove;
-import model.Archives.manageFiles.ManagementArchiveModel;
+import Model.Archives.manageFiles.ManagementArchiveModel;
+
+import javax.swing.*;
 
 
 public class ManagementArchiveController {
 
-    private final ManagementArchiveModel managementArchiveModel;
+    private ManagementArchiveModel managementArchiveModel = null;
     private final Universe universe = new Universe(ExecutableMove.planetsList);
     private static final ExecutableMove executableMove = new ExecutableMove();
-    private String archiveSelected = "10";
+    public static String archiveSelected;
 
-    public ManagementArchiveController(String archiveSelected){
+    public ManagementArchiveController(){
         if(!(archiveSelected == null)){
-            this.archiveSelected = archiveSelected;
+            managementArchiveModel = new ManagementArchiveModel(ManagementArchiveController.archiveSelected);
+            handleProcessInstant();
         }
-
-        managementArchiveModel = new ManagementArchiveModel(this.archiveSelected);
     }
 
     public String[] getLine(int line){
@@ -27,18 +28,22 @@ public class ManagementArchiveController {
 
     //Esse metodo vai ser chamado no primeiro botão
     public void handleProcessInstant() {
-        if (archiveSelected == null) {
-            return;
-        }
         Buttons.line++;
         int line = Buttons.line;
-        executableMove.movePlanets(getLine(line));
+
+        if(!(line > Integer.parseInt(archiveSelected))){
+
+            System.out.println("Linha: " + line);
+            executableMove.movePlanets(getLine(line));
+
+        } else {
+            JOptionPane.showMessageDialog(null,"End of file");
+            return;
+        }
+
         universe.updatePlanets(ExecutableMove.planetsList);
         universe.revalidate();
         universe.repaint();
     }
 
-    public String getArchiveSelected() {
-        return archiveSelected;
-    }
 }

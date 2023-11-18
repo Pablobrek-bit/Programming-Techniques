@@ -69,24 +69,24 @@ public class Buttons extends JPanel {
 
             ManagementArchiveController managementArchiveController = null;
 
-            if(button.getText().equals(PROCESS_INSTANT_TEXT)) {
+            switch (button.getText()) {
+                case PROCESS_INSTANT_TEXT -> {
+                    System.out.println("Novo arquivo: " + ManagementArchiveController.archiveSelected);
+                    managementArchiveController = new ManagementArchiveController();
+                }
+                case LEAD_NEW_ARCHIVE_TEXT -> {
+                    ChoiceArquive choiceArquive = new ChoiceArquive();
+                    choiceArquive.setVisible(true);
+                }
+                case SAVE_REPORT_TEXT -> {
 
-                //resolver esse problema
-                managementArchiveController.handleProcessInstant();
+                }
+                case READ_DATA_PARTICIPANTS_TEXT -> {
 
+                }
+                case SAVE_ARCHIVE_TEXT -> {
 
-            } else if(button.getText().equals(LEAD_NEW_ARCHIVE_TEXT)) {
-
-                ChoiceArquive choiceArquive = new ChoiceArquive();
-                choiceArquive.setVisible(true);
-                ManagementArchiveController managementArchiveController1 = new ManagementArchiveController(choiceArquive.selectedOption);
-
-
-            } else if(button.getText().equals(SAVE_REPORT_TEXT)) {
-
-            } else if(button.getText().equals(READ_DATA_PARTICIPANTS_TEXT)) {
-
-            } else if(button.getText().equals(SAVE_ARCHIVE_TEXT)) {
+                }
 
             }
 
@@ -105,7 +105,6 @@ public class Buttons extends JPanel {
         private void animateExit() {
 
         }
-
         private void transitionToColor() {
             button.setForeground(Color.LIGHT_GRAY);
 
@@ -116,21 +115,5 @@ public class Buttons extends JPanel {
 
             timer.start();
         }
-//        private void handleProcessInstant() {
-//            if (managementArchiveController == null) {
-//                JOptionPane.showMessageDialog(null, "Selecione um arquivo de entrada");
-//                return;
-//            }
-//
-//            executableMove.movePlanets();
-//            universe.updatePlanets(ExecutableMove.planetsList);
-//            universe.revalidate();
-//            universe.repaint();
-//        }
-//        private void handleLeadNewArchive() {
-//            ChoiceArquive choiceArquive = new ChoiceArquive();
-//            choiceArquive.setVisible(true);
-//            managementArchiveController = new ManagementArchiveController(choiceArquive.selectedOption);
-//        }
     }
 }

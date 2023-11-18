@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import View.Pass.Executable;
 

@@ -1,9 +1,9 @@
-package model.Entities.Planets;
+package Model.Entities.Planets;
 
 import View.Components.Create;
-import model.Entities.Components.Coordinates;
-import model.Entities.Components.Location;
-import model.Entities.Components.Planets;
+import Model.Entities.Components.Coordinates;
+import Model.Entities.Components.Location;
+import Model.Entities.Components.Planets;
 
 
 public class JS extends Planets {

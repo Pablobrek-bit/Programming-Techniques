@@ -1,7 +1,7 @@
-package model.Entities.BugsDevs;
+package Model.Entities.BugsDevs;
 
-import model.Entities.Components.Coordinates;
-import model.Entities.Components.Planets;
+import Model.Entities.Components.Coordinates;
+import Model.Entities.Components.Planets;
 
 import java.util.ArrayList;
 import java.util.List;

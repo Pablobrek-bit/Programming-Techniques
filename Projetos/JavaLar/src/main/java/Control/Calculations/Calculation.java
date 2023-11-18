@@ -1,6 +1,6 @@
 package Control.Calculations;
 
-import model.Entities.Components.Planets;
+import Model.Entities.Components.Planets;
 
 import java.util.List;
 

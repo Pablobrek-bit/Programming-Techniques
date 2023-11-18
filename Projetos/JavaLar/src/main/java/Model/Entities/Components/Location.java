@@ -1,4 +1,4 @@
-package model.Entities.Components;
+package Model.Entities.Components;
 
 //Class that will store the point at which the entities are in the system
 public class Location {

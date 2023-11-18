@@ -1,9 +1,9 @@
-package model.Entities.Components;
+package Model.Entities.Components;
 
 
-import model.Entities.BugsDevs.BugsDevs;
+import Model.Entities.BugsDevs.BugsDevs;
 import Control.Calculations.Calculation;
-import model.Entities.BugsDevs.Verifications;
+import Model.Entities.BugsDevs.Verifications;
 
 import javax.swing.*;
 

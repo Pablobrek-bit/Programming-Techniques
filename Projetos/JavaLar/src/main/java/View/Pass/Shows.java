@@ -2,9 +2,9 @@ package View.Pass;
 
 import java.util.List;
 
-import model.Entities.BugsDevs.BugsDevs;
+import Model.Entities.BugsDevs.BugsDevs;
 import Control.Calculations.Calculation;
-import model.Entities.Components.Planets;
+import Model.Entities.Components.Planets;
 
 
 

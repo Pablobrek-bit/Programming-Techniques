@@ -1,5 +1,7 @@
 package View.Containers.Interaction.Buttons.ChoiceArquive;
 
+import Control.ManagementControl.ManagementArchiveController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,9 @@ import java.util.Objects;
 
 public class ChoiceArquive extends JFrame {
 
-    public String selectedOption;
+
+    public String selectedOption = "";
+
 
     private final JButton confirm = new JButton("Confirm");
     public ChoiceArquive(){
@@ -17,10 +21,10 @@ public class ChoiceArquive extends JFrame {
     }
 
     private void organize(){
-        Query query = new Query();
-        ArquiveOptions arquiveOptions = new ArquiveOptions();
-        add(query,BorderLayout.NORTH);
-        add(arquiveOptions,BorderLayout.CENTER);
+
+
+        add(new Query(),BorderLayout.NORTH);
+        add(new ArquiveOptions(),BorderLayout.CENTER);
         add(confirm, BorderLayout.SOUTH);
     }
 
@@ -37,22 +41,20 @@ public class ChoiceArquive extends JFrame {
         confirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         confirm.setBackground(Color.white);
         confirm.setForeground(Color.black);
-        setActionButton();
+
+        confirm.addActionListener(this::handleConfirm);
     }
 
-    private void setActionButton(){
-        confirm.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ArquiveOptions.buttonGroup.getSelection() != null) {
-                    selectedOption = Objects.requireNonNull(ArquiveOptions.getSelectedOption());
-                    messageSuccess();
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null,"Select one option");
-                }
-            }
-        });
+    private void handleConfirm(ActionEvent e) {
+        if (ArquiveOptions.buttonGroup.getSelection() != null) {
+            selectedOption = Objects.requireNonNull(ArquiveOptions.getSelectedOption());
+            ManagementArchiveController.archiveSelected = selectedOption;
+            System.out.println("Arquivo selecionado: " + selectedOption);
+            messageSuccess();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Select one option");
+        }
     }
 
     private void messageSuccess(){

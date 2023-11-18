@@ -1,6 +1,6 @@
-package model.Entities.Components;
+package Model.Entities.Components;
 
-import model.Entities.BugsDevs.BugsDevs;
+import Model.Entities.BugsDevs.BugsDevs;
 
 import java.util.List;
 

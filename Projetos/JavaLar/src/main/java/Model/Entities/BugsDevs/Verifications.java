@@ -1,6 +1,6 @@
-package model.Entities.BugsDevs;
+package Model.Entities.BugsDevs;
 
-import model.Entities.Components.Coordinates;
+import Model.Entities.Components.Coordinates;
 
 import java.util.List;
 
