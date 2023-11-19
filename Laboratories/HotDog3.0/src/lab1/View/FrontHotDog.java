@@ -75,7 +75,9 @@ public class FrontHotDog extends JFrame {
             bListarVendas.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    System.out.println("Limpando table");
                     tabelaInfor.clearTable();
+                    System.out.println("Adicionando rows");
                     tabelaInfor.addRow();
                     cardLayout.show(cardPanel, "tabelaInfor");
                 }

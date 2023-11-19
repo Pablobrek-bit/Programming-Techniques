@@ -1,13 +1,11 @@
-package lab1.DAO;
+package lab1.Model.People.DAO;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-import lab1.Connection.ConnectionFactory;
+import lab1.Model.People.Connection.ConnectionFactory;
 import lab1.Model.People.Client.Client;
 import lab1.Model.People.Enums.Additional;
 import lab1.Model.People.HotDog.HotDog;
 import lab1.Services.Value;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -145,4 +143,72 @@ public class HotDogDAO {
         }
         return additional;
     }
+
+    public static List<HotDog> listHotDogs(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<HotDog> hotDogs = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM hotdog");
+            rs = stmt.executeQuery();
+            int i = 1;
+            while(rs.next()){
+                String adicionais = rs.getString("adicionais");
+                String[] adicionaisArray = adicionais.split(";");
+                List<Additional> additionalList = new ArrayList<>();
+                for(String adicional : adicionaisArray){
+                    additionalList.add(Additional.valueOf(adicional));
+                }
+                String proteina = rs.getString("proteina");
+                String bebida = rs.getString("bebida");
+                String queijo = rs.getString("queijo");
+
+                hotDogs.add(new HotDog(proteina, bebida, queijo, additionalList));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return hotDogs;
+    }
+
+    public static List<HotDog> listarHotDogsPorCliente(Integer idCliente) {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<HotDog> hotDogs = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM hotdog WHERE id_cliente = ?");
+            stmt.setInt(1, idCliente);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String adicionais = rs.getString("adicionais");
+                String[] adicionaisArray = adicionais.split(";");
+                List<Additional> additionalList = new ArrayList<>();
+                for(String adicional : adicionaisArray){
+                    additionalList.add(Additional.valueOf(adicional));
+                }
+                String proteina = rs.getString("proteina");
+                String bebida = rs.getString("bebida");
+                String queijo = rs.getString("queijo");
+
+                hotDogs.add(new HotDog(bebida, queijo, proteina, additionalList));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return hotDogs;
+    }
+
 }

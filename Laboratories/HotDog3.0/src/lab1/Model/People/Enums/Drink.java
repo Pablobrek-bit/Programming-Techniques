@@ -25,4 +25,13 @@ public enum Drink {
         }
         return null;
     }
+
+    public static Drink fromString(String text) {
+        for (Drink drink : Drink.values()) {
+            if (drink.name().equalsIgnoreCase(text)) {
+                return drink;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant " + Drink.class + "." + text);
+    }
 }

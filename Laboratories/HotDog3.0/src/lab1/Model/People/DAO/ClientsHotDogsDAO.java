@@ -1,6 +1,6 @@
-package lab1.DAO;
+package lab1.Model.People.DAO;
 
-import lab1.Connection.ConnectionFactory;
+import lab1.Model.People.Connection.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

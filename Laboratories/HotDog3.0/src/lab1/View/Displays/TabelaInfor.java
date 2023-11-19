@@ -58,7 +58,10 @@ public class TabelaInfor extends JPanel{
     }
 
     public void addRow(){
-        List<Sale> sales = Management.sales;
+        List<Sale> sales = Management.getAllSales();
+        System.out.println(sales.size());
+
+
         for (Sale sale : sales) {
             model.addRow(new Object[]{
                     sale.getClient().getName(),

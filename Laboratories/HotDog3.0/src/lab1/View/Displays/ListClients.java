@@ -60,6 +60,7 @@ public class ListClients extends JPanel {
     }
 
     public void addRow(){
+        Management.sales = Management.getAllSales();
         List<Client> clients = Validations.findUsers();
         for (Client client : clients) {
             model.addRow(new Object[]{

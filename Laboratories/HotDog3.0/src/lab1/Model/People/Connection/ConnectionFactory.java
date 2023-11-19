@@ -1,4 +1,4 @@
-package lab1.Connection;
+package lab1.Model.People.Connection;
 
 import java.sql.*;
 

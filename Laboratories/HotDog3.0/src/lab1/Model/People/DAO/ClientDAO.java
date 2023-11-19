@@ -1,9 +1,8 @@
-package lab1.DAO;
+package lab1.Model.People.DAO;
 
-import lab1.Connection.ConnectionFactory;
+import lab1.Model.People.Connection.ConnectionFactory;
 import lab1.Model.People.Client.Client;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

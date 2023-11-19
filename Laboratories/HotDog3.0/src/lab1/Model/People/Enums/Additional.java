@@ -26,4 +26,12 @@ public enum Additional {
         }
         return null;
     }
+    public static Additional fromString(String text) {
+        for (Additional additional : Additional.values()) {
+            if (additional.name().equalsIgnoreCase(text)) {
+                return additional;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant lab1.Model.People.Enums.Additional." + text);
+    }
 }
