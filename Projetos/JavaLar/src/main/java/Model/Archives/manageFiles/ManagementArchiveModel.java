@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagementArchiveModel {
-    private final String path;
+    public static String path;
     private String archiveSelected;
     private String[] archive;
 
@@ -14,7 +14,7 @@ public class ManagementArchiveModel {
     public ManagementArchiveModel(String archiveSelected){
 
         this.archiveSelected = archiveSelected;
-        path = "src/main/java/model/Archives/AE_"+this.archiveSelected+".csv";
+        path = archiveSelected;
         validateFileExistence();
         readArchive();
 

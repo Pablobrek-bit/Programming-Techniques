@@ -22,7 +22,7 @@ public class ChoiceArquive extends JFrame {
 
     private void organize(){
 
-
+        JFileChooser fileChooser = new JFileChooser();
         add(new Query(),BorderLayout.NORTH);
         add(new ArquiveOptions(),BorderLayout.CENTER);
         add(confirm, BorderLayout.SOUTH);

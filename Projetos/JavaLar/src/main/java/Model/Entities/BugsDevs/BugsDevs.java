@@ -38,7 +38,6 @@ public class BugsDevs {
             for(int i = 0; i < availableCoordinates.size(); i++){
                 if(availableCoordinates.get(i).getX() == coord.getX() && availableCoordinates.get(i).getY() == coord.getY()){
                     availableCoordinates.remove(i);
-
                 }
             }
         }

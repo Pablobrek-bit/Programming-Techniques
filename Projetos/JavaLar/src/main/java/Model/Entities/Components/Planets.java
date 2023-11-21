@@ -15,13 +15,12 @@ public abstract class Planets {
 	protected int dislocation;
 	protected int distanceTraveled;
 	protected double rotation;
-	protected String history;
 	protected double years = 0;
 	protected int hitDevs;
 	protected int hitBugs;
 	protected Location location;
-
 	protected ImageIcon imageIcon;
+	protected int instants = 0;
 
 	private void setAlive() {
 		if (dislocation <= 0) {
@@ -31,6 +30,7 @@ public abstract class Planets {
 
 	//Method for defining what will happen at a specific time
 	public void move(int instant){
+		instants += instant;
 		//Variable to store how far the planet has moved in a period
 		int distanceInYear = 0;
 		for (int i = 0; i < instant; i++) {
@@ -60,14 +60,14 @@ public abstract class Planets {
 	private void handleBugHit() {
 		dislocation--;
 		hitBugs++;
-		System.out.println("The planet " + this.name + " was hit by a bug!");
+		System.err.println("The planet " + this.name + " was hit by a bug!");
 		setAlive();
 	}
 
 	private void handleDevHit() {
 		dislocation++;
 		hitDevs++;
-		System.out.println("The planet " + this.name + " was hit by a dev!");
+		System.err.println("The planet " + this.name + " was hit by a dev!");
 	}
 
 	//Method for moving the planet
@@ -93,29 +93,22 @@ public abstract class Planets {
 		}
 	}
 
-	//Methods Getters and Setters
 	public Location getLocation() {
 		return location;
 	}
-
 	public String getName() {
 		return name;
 	}
-
-	public int getDislocation() {
-		return dislocation;
+	public ImageIcon getImageIcon() {
+		return imageIcon;
 	}
 
 	public double getRotation() {
 		return rotation;
 	}
 
-	public String getHistory() {
-		return history;
-	}
-
-	public boolean isAlive() {
-		return isAlive;
+	public int getInstants() {
+		return instants;
 	}
 
 	public int getHitDevs() {
@@ -130,13 +123,11 @@ public abstract class Planets {
 		return distanceTraveled;
 	}
 
-	public double getYears() {
-		return years;
+	public int getYears() {
+		return (int) years;
 	}
 
-	public ImageIcon getImageIcon() {
-		return imageIcon;
+	public boolean isAlive() {
+		return isAlive;
 	}
-
-
 }

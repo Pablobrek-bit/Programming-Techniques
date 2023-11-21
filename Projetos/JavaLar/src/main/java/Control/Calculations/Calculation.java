@@ -1,5 +1,6 @@
 package Control.Calculations;
 
+import Model.Entities.Components.Coordinates;
 import Model.Entities.Components.Planets;
 
 import java.util.List;
@@ -9,10 +10,12 @@ import java.util.List;
 public class Calculation {
 
     //constants
-    public final int LINE_MERIDIAN = 12;
-    public final int LINE_EQUATOR = 8;
-    public final int LINE_START_NORTH = 9;
-    public final int LINE_START_SOUTH = 7;
+    private static final int LINE_MERIDIAN = 12;
+    private static final int LINE_EQUATOR = 8;
+    private static final int LINE_START_NORTH = 9;
+    private static final int LINE_START_SOUTH = 7;
+    private static final int LINE_CENTER = 12;
+
 
     //Calculating translation speed
     public int translationSpeed(int instant, int dislocation) {
@@ -24,9 +27,8 @@ public class Calculation {
         return instant *  dislocation;
     }
 
-    //Calculating quantity of days
-    public double quantityDays(int instant, double rotation) {
-        return (instant * rotation) / 24;
+    public Integer quantityDays(int instant, double rotation) {
+        return (int) (instant * rotation);
     }
 
     //calculating at Euclidean distance
@@ -59,6 +61,36 @@ public class Calculation {
         return north;
     }
 
+    public static Integer[] northEntity(List<Coordinates> entity){
+
+        Integer[] quadrantesUmDois = {0, 0};
+        for (Coordinates coordinates : entity) {
+            if((coordinates.getX() >=LINE_START_NORTH) && (coordinates.getY() != 12)){
+                if(coordinates.getY() < 12){
+                    quadrantesUmDois[1]++;
+                }else {
+                    quadrantesUmDois[0]++;
+                }
+            }
+        }
+        return quadrantesUmDois;
+    }
+
+    public static Integer[] southEntity(List<Coordinates> entity){
+
+        Integer[] quadrantesTresQuatro = {0, 0};
+        for (Coordinates coordinates : entity) {
+            if((coordinates.getX() <= LINE_START_SOUTH) && (coordinates.getY() != 12)){
+                if(coordinates.getY() > 12){
+                    quadrantesTresQuatro[1]++;
+                }else {
+                    quadrantesTresQuatro[0]++;
+                }
+            }
+        }
+        return quadrantesTresQuatro;
+    }
+
     public int south(List<Planets> planets){
 
         int south = 0;
@@ -68,6 +100,7 @@ public class Calculation {
         return south;
     }
 
+
     public int equator(List<Planets> planets){
 
         int equator = 0;
@@ -76,7 +109,6 @@ public class Calculation {
         }
         return equator;
     }
-
 
     public int meridian(List<Planets> planets){
 
@@ -88,9 +120,9 @@ public class Calculation {
     }
 
     //Calculate the average speed of translation
-    public double mediaVelocity(Planets planets, int instant){
+    public int mediaVelocity(Planets planets){
 
-        return ((double) planets.getDistanceTraveled() / instant);
+        return (planets.getDistanceTraveled() / planets.getInstants());
     }
 
     //Calculate the area of the polygon formed by the JavaLar system

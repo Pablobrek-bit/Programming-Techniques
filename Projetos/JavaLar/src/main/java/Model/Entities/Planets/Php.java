@@ -12,7 +12,6 @@ public class Php extends Planets {
         this.name = "Php";
         dislocation = 2;
         rotation = 60;
-        this.history = "PHP is a general-purpose scripting language especially suited to web development. It was originally created by Danish-Canadian programmer Rasmus Lerdorf in 1994.\nThe PHP reference implementation is now produced by The PHP Group. PHP originally stood for Personal Home Page, but it now stands for the recursive initialism PHP: Hypertext Preprocessor.";
         this.imageIcon = Create.createIcon("src/main/java/View/Sources/php.png", 48, 48);
 
 

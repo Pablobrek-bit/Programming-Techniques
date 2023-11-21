@@ -1,13 +1,17 @@
 package View.Containers.Interaction.Buttons;
 
 import Control.ManagementControl.ManagementArchiveController;
+import Model.DAO.PlanetsDAO;
 import View.Components.MyButton;
 import View.Containers.Interaction.Buttons.ChoiceArquive.ChoiceArquive;
 import View.Containers.Universe.Universe;
 import View.ExecutableMove;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,7 +23,7 @@ public class Buttons extends JPanel {
     private static final String READ_DATA_PARTICIPANTS_TEXT = "Ler Dados dos Participantes";
     private static final String SAVE_ARCHIVE_TEXT = "Salvar Arquivo de Saída";
 
-    private final MyButton processInstant = new MyButton("Processar Instante");
+    private static final MyButton processInstant = new MyButton("Processar Instante");
     private final MyButton leadNewArquive = new MyButton("Ler Novo Arquivo de Entrada");
     private final MyButton saveReport = new MyButton("Salvar Relatório");
     private final MyButton readDataParticipants = new MyButton("Ler Dados dos Participantes");
@@ -58,6 +62,9 @@ public class Buttons extends JPanel {
 
     public static class MyButtonMouseListener extends MouseAdapter {
         private final MyButton button;
+        private Timer timer;
+        ManagementArchiveController managementArchiveController = null;
+        PlanetsDAO planetsDAO = new PlanetsDAO();
 
         public MyButtonMouseListener(MyButton button) {
             this.button = button;
@@ -67,19 +74,21 @@ public class Buttons extends JPanel {
         public void mouseClicked(MouseEvent e) {
             JButton button = (JButton) e.getSource();
 
-            ManagementArchiveController managementArchiveController = null;
+
 
             switch (button.getText()) {
                 case PROCESS_INSTANT_TEXT -> {
                     System.out.println("Novo arquivo: " + ManagementArchiveController.archiveSelected);
                     managementArchiveController = new ManagementArchiveController();
+                    //planetsDAO.insertJavaLar();
+//                    startProcessingLoop();
                 }
                 case LEAD_NEW_ARCHIVE_TEXT -> {
-                    ChoiceArquive choiceArquive = new ChoiceArquive();
-                    choiceArquive.setVisible(true);
+                    getFile();
+
                 }
                 case SAVE_REPORT_TEXT -> {
-
+                    planetsDAO.insertJavaLar();
                 }
                 case READ_DATA_PARTICIPANTS_TEXT -> {
 
@@ -92,28 +101,47 @@ public class Buttons extends JPanel {
 
         }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            transitionToColor();
+        private void getFile(){
+            JFileChooser fileChooser = new JFileChooser();
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos CVS", "csv");
+            fileChooser.setFileFilter(filter);
+
+            int result = fileChooser.showOpenDialog(null);
+
+            if(result == JFileChooser.APPROVE_OPTION){
+                ManagementArchiveController.archiveSelected = fileChooser.getSelectedFile().getAbsolutePath();
+            } else{
+                JOptionPane.showMessageDialog(null,"Select one option", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            animateExit();
-        }
+        private void startProcessingLoop() {
+            timer = new Timer(500, new ActionListener() {
+                int countdown = 10; // Tempo inicial em segundos
 
-        private void animateExit() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (countdown > 0) {
+                        System.out.println("Contagem regressiva: " + countdown);
+                        countdown--;
+                    } else {
+                        managementArchiveController = new ManagementArchiveController();
+                        planetsDAO.insertJavaLar();
+                        timer.stop();
+                        startProcessingLoop();
 
-        }
-        private void transitionToColor() {
-            button.setForeground(Color.LIGHT_GRAY);
-
-            Timer timer = new Timer(140, event -> {
-                button.setForeground(Color.white);
-                ((Timer) event.getSource()).stop();
+                    }
+                }
             });
 
+            // Inicia otemporizador
             timer.start();
         }
+
+
+
+
+
     }
 }

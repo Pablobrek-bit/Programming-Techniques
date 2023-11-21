@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class MyButton extends JPanel {
 
-    private JButton button;
+    private final JButton button;
 
     public MyButton(String name) {
         button = new JButton(name);
@@ -25,7 +25,6 @@ public class MyButton extends JPanel {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
 
         button.addMouseListener(new Buttons.MyButtonMouseListener(this));
     }
@@ -38,25 +37,8 @@ public class MyButton extends JPanel {
         button.addActionListener(listener);
     }
 
-    // Adicione esses métodos
-    public void animateClick(Color originalColor) {
-        button.setForeground(Color.GREEN);
-
-        Timer timer = new Timer(500, actionEvent -> button.setForeground(originalColor));
-        timer.setRepeats(false);
-        timer.start();
-    }
-
     public void animateHover(Color originalColor) {
         button.setForeground(Color.YELLOW);
-
-        Timer timer = new Timer(500, actionEvent -> button.setForeground(originalColor));
-        timer.setRepeats(false);
-        timer.start();
-    }
-
-    public void animateExit(Color originalColor) {
-        button.setForeground(Color.BLACK);
 
         Timer timer = new Timer(500, actionEvent -> button.setForeground(originalColor));
         timer.setRepeats(false);

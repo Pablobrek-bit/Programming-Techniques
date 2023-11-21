@@ -12,7 +12,6 @@ public class RubyRails extends Planets {
         this.name = "Ruby on Rails";
         dislocation = 2;
         rotation = 48;
-        this.history = "Ruby on Rails, or Rails, is a server-side web application framework written in Ruby under the MIT License. Rails is a model–view–controller (MVC) framework, providing default structures for a database, a web service, and web pages.\nIt encourages and facilitates the use of web standards such as JSON or XML for data transfer, HTML, CSS and JavaScript for user interfacing. Rails is a framework, providing default structures for a database, a web service, and web pages.\nIt encourages and facilitates the use of web standards such as JSON or XML for data transfer, HTML, CSS and JavaScript for user interfacing.";
         this.imageIcon = Create.createIcon("src/main/java/View/Sources/icons8-ruby-programming-language-48.png", 48, 48);
 
         Coordinates coord = new Coordinates(11, 12);

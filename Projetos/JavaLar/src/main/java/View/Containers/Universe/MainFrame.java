@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MainFrame extends JFrame {
 
-    private final Universe universe;
+    public static Universe universe = new Universe();
     private final Buttons buttons;
     private static final String JAVA_ICON_PATH = "src/main/java/View/Sources/java.png";
     private static final String BACKGROUND_IMAGE_PATH = "src/main/java/View/Sources/espaco.jpg";
@@ -23,12 +23,15 @@ public class MainFrame extends JFrame {
         setImage();
 
         buttons = new Buttons();
-        universe = new Universe(instances());
+        universe = new Universe();
+        universe.buildUniverse();
+        universe.updates(instances());
+
         organize();
     }
 
     private void setSetup() {
-        setSize(1100, 850);
+        setSize(1300, 850);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
