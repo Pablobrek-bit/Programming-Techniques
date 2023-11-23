@@ -24,6 +24,7 @@ public abstract class Planets {
 
 	private void setAlive() {
 		if (dislocation <= 0) {
+			System.out.println("The planet " + this.name + " was destroyed by bugs!");
 			this.isAlive = false;
 		}
 	}

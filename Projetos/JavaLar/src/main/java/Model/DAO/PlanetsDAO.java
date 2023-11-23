@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PlanetsDAO {
 
-    private static final String NAME = "Pablo";
-    private static final String MATRICULA = "555989";
+    private static final String NAME = "Julio Cesar";
+    private static final String MATRICULA = "552419";
     private final Calculation calculation = new Calculation();
 
     private int bugsQuadOne;
@@ -118,89 +118,43 @@ public class PlanetsDAO {
         }
     }
 
-    private String buildSqlInsertStatement(int planetCount) {
-        StringBuilder sql = new StringBuilder("INSERT INTO javalar (nome, matricula, nome_arquivo");
+    public List<String[]> getJavaLar(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String[]> javaLar = new ArrayList<>();
 
-        for (int i = 0; i < planetCount; i++) {
-            sql.append(", bug_" + i);
+        try {
+
+            stmt = con.prepareStatement("SELECT * FROM javalar");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String[] datas = new String[46];
+
+                datas[0] = rs.getString("nome"); //2
+                datas[1] = rs.getString("matricula"); //3
+                datas[2] = rs.getString("nome_arquivo"); //4
+
+                for (int i = 5; i <= 46; i++) {
+                    datas[i - 2] = String.valueOf(rs.getInt(i));
+                }
+
+                javaLar.add(datas);
+            }
+
+        }catch (Exception e){
+
+            System.out.println("Erro ao inserir no banco de dados: " + e.getMessage());
+
+        } finally {
+
+            ConnectionFactory.closeConnection(con, stmt, rs);
+
         }
 
-        for (int i = 0; i < planetCount; i++) {
-            sql.append(", dev_" + i);
-        }
+        return javaLar;
 
-        for (int i = 0; i < planetCount; i++) {
-            sql.append(", v_" + i);
-        }
-
-        for (int i = 0; i < planetCount; i++) {
-            sql.append(", d_" + i);
-        }
-
-        for (int i = 0; i < planetCount; i++) {
-            sql.append(", a_" + i);
-        }
-
-        sql.append(", bug_q1, bug_q2, bug_q3, bug_q4, dev_q1, dev_q2, dev_q3, dev_q4) VALUES (");
-
-        for (int i = 0; i < 5 * planetCount - 1; i++) {
-            sql.append("?, ");
-        }
-
-        // Adicionei mais 8 placeholders para os quadrantes
-        sql.append("?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        return sql.toString();
-    }
-
-
-
-
-    private void insertPersonalInfo(PreparedStatement stmt) throws Exception {
-        stmt.setString(1, NAME);
-        stmt.setString(2, MATRICULA);
-        stmt.setString(3, ManagementArchiveModel.path);
-    }
-
-    private void insertBugs(PreparedStatement stmt, List<Planets> planets) throws Exception {
-        for (int i = 0; i < planets.size(); i++) {
-            stmt.setInt(3 + i, planets.get(i).getHitBugs()); // Ajustei o índice inicial para 3
-        }
-    }
-
-    private void insertDevs(PreparedStatement stmt, List<Planets> planets) throws Exception {
-        int startIndex = 3 + planets.size(); // Ajustei o índice inicial para 3
-        for (int i = 0; i < planets.size(); i++) {
-            stmt.setInt(startIndex + i, planets.get(i).getHitDevs());
-        }
-    }
-
-    private void insertVelocity(PreparedStatement stmt, List<Planets> planets) throws Exception {
-        int startIndex = 18 + 2 * planets.size();
-        for (int i = 0; i < planets.size(); i++) {
-            stmt.setInt(startIndex + i, velocity.get(i));
-        }
-    }
-
-    private void insertHours(PreparedStatement stmt, List<Planets> planets) throws Exception {
-        int startIndex = 25 + 3 * planets.size();
-        for (int i = 0; i < planets.size(); i++) {
-            stmt.setInt(startIndex + i, hours.get(i));
-        }
-    }
-
-    private void insertYears(PreparedStatement stmt, List<Planets> planets) throws Exception {
-        int startIndex = 32 + 4 * planets.size();
-        for (int i = 0; i < planets.size(); i++) {
-            stmt.setInt(startIndex + i, planets.get(i).getYears());
-        }
-    }
-
-    private void insertQuadrants(PreparedStatement stmt, int size) throws Exception {
-        int startIndex = 3 + 4 * size; // Ajustei o índice inicial para 3
-        for (int i = 0; i < 8; i++) { // Adicionei 8 placeholders para os quadrantes
-            stmt.setInt(startIndex + i, 0); // Substitua 0 pelos valores reais dos quadrantes
-        }
     }
 
     public void getVelocity(List<Planets> planets){
@@ -215,29 +169,22 @@ public class PlanetsDAO {
         }
     }
 
-    //    // Método para calcular a distribuição de bugs e devs em cada quadrante
     public void getQuadrante() {
-        // Cálculo para bugs nos quadrantes 1 e 2
         Integer[] quadranteUmDoisBugs = Calculation.northEntity(BugsDevs.getBugs());
         bugsQuadOne = quadranteUmDoisBugs[0];
         bugsQuadTwo = quadranteUmDoisBugs[1];
 
-        // Cálculo para bugs nos quadrantes 3 e 4
         Integer[] quadranteTresQuatroBugs = Calculation.southEntity(BugsDevs.getBugs());
         bugsQuadThree = quadranteTresQuatroBugs[0];
         bugsQuadFour = quadranteTresQuatroBugs[1];
 
-        // Cálculo para devs nos quadrantes 1 e 2
         Integer[] quadranteUmDoisDevs = Calculation.northEntity(BugsDevs.getDevs());
         devsQuadOne = quadranteUmDoisDevs[0];
         devsQuadTwo = quadranteUmDoisDevs[1];
 
-        // Cálculo para devs nos quadrantes 3 e 4
         Integer[] quadranteTresQuatroDevs = Calculation.southEntity(BugsDevs.getDevs());
         devsQuadThree = quadranteTresQuatroDevs[0];
         devsQuadFour = quadranteTresQuatroDevs[1];
     }
-
-
 }
 

@@ -1,13 +1,13 @@
-package View.Containers.Interaction.Buttons;
+package View.Containers.Interaction;
 
 import Control.ManagementControl.ManagementArchiveController;
 import Model.DAO.PlanetsDAO;
+import View.Components.Create;
 import View.Components.MyButton;
-import View.Containers.Interaction.Buttons.ChoiceArquive.ChoiceArquive;
-import View.Containers.Universe.Universe;
-import View.ExecutableMove;
+
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,10 +24,10 @@ public class Buttons extends JPanel {
     private static final String SAVE_ARCHIVE_TEXT = "Salvar Arquivo de Saída";
 
     private static final MyButton processInstant = new MyButton("Processar Instante");
-    private final MyButton leadNewArquive = new MyButton("Ler Novo Arquivo de Entrada");
+    private final MyButton leadNewArchive = new MyButton("Ler Novo Arquivo de Entrada");
     private final MyButton saveReport = new MyButton("Salvar Relatório");
     private final MyButton readDataParticipants = new MyButton("Ler Dados dos Participantes");
-    private final MyButton saveArquive = new MyButton("Salvar Arquivo de Saída");
+    private final MyButton saveArchive = new MyButton("Salvar Arquivo de Saída");
 
     public static int line = 0;
 
@@ -37,33 +37,35 @@ public class Buttons extends JPanel {
     }
 
     private void setSetup() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new FlowLayout());
         setOpaque(false);
-        setPreferredSize(new Dimension(300, 700));
+        setPreferredSize(new Dimension(700, 80));
+        setBorder(new LineBorder(Color.PINK, 2, true));
     }
 
     public void organize() {
+        //leadNewArchive.addImage(Create.createIcon("src/main/java/View/Sources/folder.png", 30, 30));
         add(processInstant);
-        add(leadNewArquive);
+        add(leadNewArchive);
         add(saveReport);
         add(readDataParticipants);
-        add(saveArquive);
+        add(saveArchive);
 
         addAction();
     }
 
     private void addAction() {
         processInstant.addMouseListener(new MyButtonMouseListener(processInstant));
-        leadNewArquive.addMouseListener(new MyButtonMouseListener(leadNewArquive));
+        leadNewArchive.addMouseListener(new MyButtonMouseListener(leadNewArchive));
         saveReport.addMouseListener(new MyButtonMouseListener(saveReport));
         readDataParticipants.addMouseListener(new MyButtonMouseListener(readDataParticipants));
-        saveArquive.addMouseListener(new MyButtonMouseListener(saveArquive));
+        saveArchive.addMouseListener(new MyButtonMouseListener(saveArchive));
     }
 
     public static class MyButtonMouseListener extends MouseAdapter {
         private final MyButton button;
         private Timer timer;
-        ManagementArchiveController managementArchiveController = null;
+        static ManagementArchiveController managementArchiveController = null;
         PlanetsDAO planetsDAO = new PlanetsDAO();
 
         public MyButtonMouseListener(MyButton button) {
@@ -74,14 +76,13 @@ public class Buttons extends JPanel {
         public void mouseClicked(MouseEvent e) {
             JButton button = (JButton) e.getSource();
 
-
-
             switch (button.getText()) {
                 case PROCESS_INSTANT_TEXT -> {
                     System.out.println("Novo arquivo: " + ManagementArchiveController.archiveSelected);
                     managementArchiveController = new ManagementArchiveController();
                     //planetsDAO.insertJavaLar();
-//                    startProcessingLoop();
+                    //planetsDAO.getJavaLar();
+                    //startProcessingLoop();
                 }
                 case LEAD_NEW_ARCHIVE_TEXT -> {
                     getFile();
@@ -91,10 +92,11 @@ public class Buttons extends JPanel {
                     planetsDAO.insertJavaLar();
                 }
                 case READ_DATA_PARTICIPANTS_TEXT -> {
-
+                    managementArchiveController.javaLar = planetsDAO.getJavaLar();
+                    System.out.println("Tamanho que é para ser: " + planetsDAO.getJavaLar().size());
                 }
                 case SAVE_ARCHIVE_TEXT -> {
-
+                    JOptionPane.showMessageDialog(null, managementArchiveController.mostCommomName(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             }

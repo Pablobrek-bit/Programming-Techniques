@@ -1,13 +1,12 @@
 package View.Components;
 
-import View.Containers.Interaction.Buttons.Buttons;
+import View.Containers.Interaction.Buttons;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MyButton extends JPanel {
-
     private final JButton button;
 
     public MyButton(String name) {
@@ -18,8 +17,16 @@ public class MyButton extends JPanel {
         add(button);
     }
 
+    public MyButton() {
+        button = new JButton();
+        setupComponents();
+        setOpaque(false);
+
+        add(button);
+    }
+
     private void setupComponents() {
-        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setFont(new Font("Arial", Font.BOLD, 10));
         button.setOpaque(false);
         button.setForeground(Color.white);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -28,6 +35,12 @@ public class MyButton extends JPanel {
 
         button.addMouseListener(new Buttons.MyButtonMouseListener(this));
     }
+
+    public void addImage(ImageIcon imageIcon){
+        button.setIcon(imageIcon);
+    }
+
+
 
     public String getText(){
         return button.getText();

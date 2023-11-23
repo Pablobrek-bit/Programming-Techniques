@@ -1,6 +1,6 @@
 package View.Containers.Universe;
 
-import View.Containers.Interaction.Buttons.Buttons;
+import View.Containers.Interaction.Buttons;
 import View.Components.Create;
 import Model.Entities.Components.Planets;
 import Model.Entities.Planets.*;
@@ -27,11 +27,12 @@ public class MainFrame extends JFrame {
         universe.buildUniverse();
         universe.updates(instances());
 
+
         organize();
     }
 
     private void setSetup() {
-        setSize(1300, 850);
+        setSize(800, 950);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -55,8 +56,8 @@ public class MainFrame extends JFrame {
     }
 
     public void organize(){
-        add(universe, BorderLayout.WEST);
-        add(buttons, BorderLayout.SOUTH);
+        add(buttons, BorderLayout.NORTH);
+        add(universe, BorderLayout.CENTER);
     }
 
     private List<Planets> instances(){
