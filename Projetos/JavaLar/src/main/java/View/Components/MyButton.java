@@ -5,19 +5,16 @@ import View.Containers.Interaction.Buttons;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class MyButton extends JPanel {
     private final JButton button;
+    private String name;
+
+
 
     public MyButton(String name) {
-        button = new JButton(name);
-        setupComponents();
-        setOpaque(false);
-
-        add(button);
-    }
-
-    public MyButton() {
+        this.name = name;
         button = new JButton();
         setupComponents();
         setOpaque(false);
@@ -32,18 +29,12 @@ public class MyButton extends JPanel {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-
+        button.setBorderPainted(false);
         button.addMouseListener(new Buttons.MyButtonMouseListener(this));
     }
 
     public void addImage(ImageIcon imageIcon){
         button.setIcon(imageIcon);
-    }
-
-
-
-    public String getText(){
-        return button.getText();
     }
 
     public void addActionListener(ActionListener listener) {
@@ -56,6 +47,23 @@ public class MyButton extends JPanel {
         Timer timer = new Timer(500, actionEvent -> button.setForeground(originalColor));
         timer.setRepeats(false);
         timer.start();
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyButton myButton = (MyButton) o;
+        return Objects.equals(button, myButton.button) && Objects.equals(name, myButton.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(button, name);
     }
 }
 
