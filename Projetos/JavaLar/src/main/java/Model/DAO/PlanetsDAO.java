@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PlanetsDAO {
 
-    private static final String NAME = "Julio Cesar";
-    private static final String MATRICULA = "552419";
+    private static final String NAME = "Pablo";
+    private static final String MATRICULA = "555989";
     private final Calculation calculation = new Calculation();
 
     private int bugsQuadOne;

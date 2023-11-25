@@ -5,7 +5,6 @@ import Model.DAO.PlanetsDAO;
 import View.Components.Create;
 import View.Components.MyButton;
 
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +16,8 @@ import java.awt.event.MouseEvent;
 
 public class Buttons extends JPanel {
 
+    public static final int IMAGESIZE = 47;
+
     private static final MyButton processInstant = new MyButton("processInstant");
     private static final MyButton leadNewArchive = new MyButton("leadNewArchive");
     private static final MyButton saveReport = new MyButton("saveReport");
@@ -26,41 +27,40 @@ public class Buttons extends JPanel {
     public static int line = 0;
 
     public Buttons() {
-        setSetup();
+        setLayout(new FlowLayout(FlowLayout.RIGHT));
+        setOpaque(false);
+        setPreferredSize(new Dimension(700, 80));
+
         organize();
     }
 
-    private void setSetup() {
-        setLayout(new FlowLayout());
-        setOpaque(false);
-        setPreferredSize(new Dimension(700, 80));
-        setBorder(new LineBorder(Color.PINK, 2, true));
+    private void organize() {
+        addImages();
+        addButtons();
+        addActionListeners();
     }
 
-    public void organize() {
-        addImages();
+    private void addImages() {
+        leadNewArchive.addImage(Create.createIcon("src/main/java/View/Sources/folder.png", IMAGESIZE, IMAGESIZE));
+        processInstant.addImage(Create.createIcon("src/main/java/View/Sources/direito.png", IMAGESIZE, IMAGESIZE));
+        saveReport.addImage(Create.createIcon("src/main/java/View/Sources/save-archive.png", IMAGESIZE, IMAGESIZE));
+        readDataParticipants.addImage(Create.createIcon("src/main/java/View/Sources/banco-de-dados.png", IMAGESIZE, IMAGESIZE));
+        saveArchive.addImage(Create.createIcon("src/main/java/View/Sources/save-archive-exit.png", IMAGESIZE, IMAGESIZE));
+    }
+
+    private void addButtons() {
         add(processInstant);
         add(leadNewArchive);
         add(saveReport);
         add(readDataParticipants);
         add(saveArchive);
-
-        addAction();
     }
 
-    private void addImages() {
-        leadNewArchive.addImage(Create.createIcon("src/main/java/View/Sources/folder.png", 30, 30));
-        processInstant.addImage(Create.createIcon("src/main/java/View/Sources/direito.png", 30, 30));
-        saveReport.addImage(Create.createIcon("src/main/java/View/Sources/save-archive.png", 30, 30));
-        readDataParticipants.addImage(Create.createIcon("src/main/java/View/Sources/banco-de-dados.png", 30, 30));
-        saveArchive.addImage(Create.createIcon("src/main/java/View/Sources/save-archive-exit.png", 30, 30));
-    }
-
-    private void addAction() {
+    private void addActionListeners() {
         processInstant.addMouseListener(new MyButtonMouseListener(processInstant));
         leadNewArchive.addMouseListener(new MyButtonMouseListener(leadNewArchive));
         saveReport.addMouseListener(new MyButtonMouseListener(saveReport));
-        readDataParticipants.addMouseListener(new MyButtonMouseListener(readDataParticipants));
+            readDataParticipants.addMouseListener(new MyButtonMouseListener(readDataParticipants));
         saveArchive.addMouseListener(new MyButtonMouseListener(saveArchive));
     }
 
@@ -76,33 +76,43 @@ public class Buttons extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
             switch (button.getName()) {
-                case "processInstant"-> {
-                    if (ManagementArchiveController.archiveSelected != null) {
-                        managementArchiveController.run();
-                    } else {
-                        System.out.println("Selecione um arquivo");
-                    }
-                }
-                case "leadNewArchive" -> {
-                    getFile();
-                    managementArchiveController.readArchive();
-                }
-                case "saveReport" -> {
-                    planetsDAO.insertJavaLar();
-                }
-                case "readDataParticipants" -> {
-                    managementArchiveController.javaLar = planetsDAO.getJavaLar();
-                    System.out.println("Tamanho que é para ser: " + planetsDAO.getJavaLar().size());
-                }
-                case "saveArchive" -> {
-                    JOptionPane.showMessageDialog(null, managementArchiveController.mostCommomName(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                }
+                case "processInstant" -> processInstantClicked();
+                case "leadNewArchive" -> leadNewArchiveClicked();
+                case "saveReport" -> saveReportClicked();
+                case "readDataParticipants" -> readDataParticipantsClicked();
+                case "saveArchive" -> saveArchiveClicked();
             }
         }
 
-        private void getFile(){
+        private void processInstantClicked() {
+            if (ManagementArchiveController.archiveSelected != null) {
+                managementArchiveController.run();
+                startProcessingLoop();
+            } else {
+                System.out.println("Selecione um arquivo");
+            }
+        }
+
+        private void leadNewArchiveClicked() {
+            getFile();
+            managementArchiveController.readArchive();
+        }
+
+        private void saveReportClicked() {
+            planetsDAO.insertJavaLar();
+        }
+
+        private void readDataParticipantsClicked() {
+            managementArchiveController.javaLar = planetsDAO.getJavaLar();
+        }
+
+        private void saveArchiveClicked() {
+            System.out.println("Nome mais comum: " + managementArchiveController.mostCommomName());
+            JOptionPane.showMessageDialog(null, managementArchiveController.mostCommomName(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        private void getFile() {
             JFileChooser fileChooser = new JFileChooser();
 
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos CVS", "csv");
@@ -110,16 +120,16 @@ public class Buttons extends JPanel {
 
             int result = fileChooser.showOpenDialog(null);
 
-            if(result == JFileChooser.APPROVE_OPTION){
+            if (result == JFileChooser.APPROVE_OPTION) {
                 ManagementArchiveController.archiveSelected = fileChooser.getSelectedFile().getAbsolutePath();
-            } else{
-                JOptionPane.showMessageDialog(null,"Select one option", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Select one option", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
         private void startProcessingLoop() {
             timer = new Timer(500, new ActionListener() {
-                int countdown = 10; // Tempo inicial em segundos
+                int countdown = 5; // Tempo inicial em segundos
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -127,22 +137,15 @@ public class Buttons extends JPanel {
                         System.out.println("Contagem regressiva: " + countdown);
                         countdown--;
                     } else {
-                        managementArchiveController = new ManagementArchiveController();
+                        managementArchiveController.run();
                         planetsDAO.insertJavaLar();
                         timer.stop();
                         startProcessingLoop();
-
                     }
                 }
             });
 
-            // Inicia otemporizador
             timer.start();
         }
-
-
-
-
-
     }
 }
