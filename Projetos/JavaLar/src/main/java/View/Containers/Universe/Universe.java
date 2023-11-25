@@ -21,6 +21,8 @@ public class Universe extends JPanel {
     private static final String JAVA_IMAGE = "src/main/java/View/Sources/java.png";
     private static final String BUG_IMAGE = "src/main/java/View/Sources/Bug.jpg";
     private static final String DEV_IMAGE = "src/main/java/View/Sources/Dev_Second.jpg";
+    private static final ImageIcon BUG_ICON = Create.createIcon(BUG_IMAGE, 38, 38);
+    private static final ImageIcon DEV_ICON = Create.createIcon(DEV_IMAGE, 38, 38);
     private static final int ICON_SIZE = 38;
 
     public Universe() {
@@ -33,11 +35,19 @@ public class Universe extends JPanel {
         setPreferredSize(new Dimension(700, 700));
     }
 
-    public void updates(List<Planets> planets) {
-        updatePlanets(planets);
-        revalidate();
-        repaint();
-    }
+//    public void updates(List<Planets> planets) {
+//        updatePlanets(planets);
+//        revalidate();
+//        repaint();
+//    }
+
+//    public void updates(List<Planets> planets) {
+//        SwingUtilities.invokeLater(() -> {
+//            updatePlanets(planets);
+//            revalidate();
+//            repaint();
+//        });
+//    }
 
     public void buildUniverse() {
         int contX = 14;
@@ -55,32 +65,35 @@ public class Universe extends JPanel {
         }
     }
 
-    public void updatePlanets(List<Planets> planets) {
-        clearOldIcons();
-        changedPositions.clear();
-        updateBugs();
-        updateDevs();
+    public void updates(List<Planets> planets) {
+        SwingUtilities.invokeLater(() -> {
+            clearOldIcons();
+            changedPositions.clear();
+            updateBugs();
+            updateDevs();
 
-        for (MyLabel position : positionsMap.values()) {
-            Coordinates positionCoordinates = position.getCoordinates();
+            for (MyLabel position : positionsMap.values()) {
+                Coordinates positionCoordinates = position.getCoordinates();
 
-            if (positionCoordinates.getX() == 8 && positionCoordinates.getY() == 12) {
-                updatePosition(position, Create.createIcon(JAVA_IMAGE, ICON_SIZE, ICON_SIZE));
-            } else {
-                for (Planets planet : planets) {
-                    if (planet.isAlive()) {
-                        Coordinates planetCoordinates = planet.getLocation().getCoord();
+                if (positionCoordinates.getX() == 8 && positionCoordinates.getY() == 12) {
+                    updatePosition(position, Create.createIcon(JAVA_IMAGE, ICON_SIZE, ICON_SIZE));
+                } else {
+                    for (Planets planet : planets) {
+                        if (planet.isAlive()) {
+                            Coordinates planetCoordinates = planet.getLocation().getCoord();
 
-                        if (positionCoordinates.equals(planetCoordinates)) {
-                            updatePosition(position, planet.getImageIcon());
+                            if (positionCoordinates.equals(planetCoordinates)) {
+                                updatePosition(position, planet.getImageIcon());
+                            }
                         }
                     }
                 }
             }
-        }
-        revalidate();
-        repaint();
+            revalidate();
+            repaint();
+        });
     }
+
 
     private void clearOldIcons() {
         for (Coordinates position : changedPositions) {
@@ -97,18 +110,21 @@ public class Universe extends JPanel {
     }
 
     public void updateBugs() {
-        updateEntities(BugsDevs.getBugs(), BUG_IMAGE);
+        updateEntities(BugsDevs.getBugs(), BUG_IMAGE,"bugs");
     }
 
     public void updateDevs() {
-        updateEntities(BugsDevs.getDevs(), DEV_IMAGE);
+        updateEntities(BugsDevs.getDevs(), DEV_IMAGE, "devs");
     }
 
-    private void updateEntities(List<Coordinates> entities, String imagePath) {
+    private void updateEntities(List<Coordinates> entities, String imagePath, String name) {
         for (Coordinates entity : entities) {
             MyLabel position = positionsMap.get(entity);
             if (position != null) {
-                updatePosition(position, Create.createIcon(imagePath, ICON_SIZE, ICON_SIZE));
+                if(name.equals("bugs"))
+                    updatePosition(position, BUG_ICON);
+                else
+                    updatePosition(position, DEV_ICON);
             }
         }
     }

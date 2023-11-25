@@ -88,7 +88,7 @@ public class Buttons extends JPanel {
         private void processInstantClicked() {
             if (ManagementArchiveController.archiveSelected != null) {
                 managementArchiveController.run();
-                startProcessingLoop();
+                //startProcessingLoop();
             } else {
                 System.out.println("Selecione um arquivo");
             }

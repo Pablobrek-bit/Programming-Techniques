@@ -18,9 +18,10 @@ public class ManagementArchiveModel {
     }
 
     private void validateFileExistence() {
-        if (archive == null || !new File(path).exists()) {
-            showErrorDialog("Choose a file ");
-            throw new RuntimeException("File not found");
+        File file = new File(path);
+        if (!file.exists()) {
+            showErrorDialog("Arquivo não encontrado");
+            throw new RuntimeException("Arquivo não encontrado");
         }
     }
 

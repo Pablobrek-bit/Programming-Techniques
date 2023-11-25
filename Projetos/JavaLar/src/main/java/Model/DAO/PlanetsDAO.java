@@ -55,7 +55,7 @@ public class PlanetsDAO {
             stmt = con.prepareStatement(sql);
             stmt.setString(1, NAME);
             stmt.setString(2, MATRICULA);
-            stmt.setString(3, "AE_100.csv");
+            stmt.setString(3, "AE_1500.csv");
             stmt.setInt(4, planets.get(0).getHitBugs());
             stmt.setInt(5, planets.get(1).getHitBugs());
             stmt.setInt(6, planets.get(2).getHitBugs());

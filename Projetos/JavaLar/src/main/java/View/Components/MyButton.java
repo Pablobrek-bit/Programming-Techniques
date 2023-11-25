@@ -5,6 +5,9 @@ import View.Containers.Interaction.Buttons;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class MyButton extends JPanel {
@@ -39,14 +42,6 @@ public class MyButton extends JPanel {
 
     public void addActionListener(ActionListener listener) {
         button.addActionListener(listener);
-    }
-
-    public void animateHover(Color originalColor) {
-        button.setForeground(Color.YELLOW);
-
-        Timer timer = new Timer(500, actionEvent -> button.setForeground(originalColor));
-        timer.setRepeats(false);
-        timer.start();
     }
 
     public String getName(){

@@ -48,9 +48,9 @@ public class ManagementArchiveController{
         int line = Buttons.line;
 
         if(line <= allLine) {
-
-            executableMove.generateEntities(getLine(line));
-            executableMove.movePlanets(getLine(line));
+            String[] lineArchive = getLine(line);
+            executableMove.generateEntities(lineArchive);
+            executableMove.movePlanets(lineArchive);
             MainFrame.universe.updates(ExecutableMove.planetsList);
 
 

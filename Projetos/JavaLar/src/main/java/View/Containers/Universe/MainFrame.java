@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
     private final Buttons buttons;
     private static final String JAVA_ICON_PATH = "src/main/java/View/Sources/java.png";
     private static final String BACKGROUND_IMAGE_PATH = "src/main/java/View/Sources/espaco.jpg";
+    private final Image BACKGROUND_IMAGE = Create.createIcon(BACKGROUND_IMAGE_PATH, 800, 950).getImage();
 
 
     public MainFrame() {
@@ -46,7 +47,7 @@ public class MainFrame extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                Image backgroundImage = Create.createIcon(BACKGROUND_IMAGE_PATH, getWidth(), getHeight()).getImage();
+                Image backgroundImage = BACKGROUND_IMAGE;
 
                 if (backgroundImage != null) {
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
