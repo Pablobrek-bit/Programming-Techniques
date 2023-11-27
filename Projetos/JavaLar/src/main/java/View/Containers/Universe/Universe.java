@@ -7,6 +7,7 @@ import Model.Entities.Components.Coordinates;
 import Model.Entities.Components.Planets;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ public class Universe extends JPanel {
     private void setSetup() {
         setLayout(new GridLayout(15, 15, 3, 3));
         setOpaque(false);
+        setBorder(new LineBorder(Color.red, 1));
         setPreferredSize(new Dimension(700, 700));
     }
 

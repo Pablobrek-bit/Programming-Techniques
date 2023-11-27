@@ -4,6 +4,8 @@ package Model.Entities.Components;
 import Model.Entities.BugsDevs.BugsDevs;
 import Control.Calculations.Calculation;
 import Model.Entities.BugsDevs.Verifications;
+import View.Containers.Universe.MainFrame;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 
@@ -24,7 +26,7 @@ public abstract class Planets {
 
 	private void setAlive() {
 		if (dislocation <= 0) {
-			System.out.println("The planet " + this.name + " was destroyed by bugs!");
+			MainFrame.warnings.addWarning("The planet " + this.name + " was destroyed by bugs!", "RedStyle");
 			this.isAlive = false;
 		}
 	}
@@ -61,14 +63,14 @@ public abstract class Planets {
 	private void handleBugHit() {
 		dislocation--;
 		hitBugs++;
-		System.err.println("The planet " + this.name + " was hit by a bug!");
+		MainFrame.warnings.addWarning("The planet " + this.name + " was hit by a bug!", "GreenStyle");
 		setAlive();
 	}
 
 	private void handleDevHit() {
 		dislocation++;
 		hitDevs++;
-		System.err.println("The planet " + this.name + " was hit by a dev!");
+		MainFrame.warnings.addWarning("The planet " + this.name + " was hit by a dev!",  "BlueStyle");
 	}
 
 	//Method for moving the planet

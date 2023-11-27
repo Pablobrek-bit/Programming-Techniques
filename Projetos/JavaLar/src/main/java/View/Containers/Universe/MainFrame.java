@@ -4,6 +4,8 @@ import View.Containers.Interaction.Buttons;
 import View.Components.Icons;
 import Model.Entities.Components.Planets;
 import Model.Entities.Planets.*;
+import View.Containers.Ranking;
+import View.Containers.Warnings;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -16,7 +18,9 @@ import java.util.List;
 
 public class MainFrame extends JFrame {
 
-    public static Universe universe = new Universe();
+    public static Universe universe;
+    public static Ranking ranking = new Ranking();
+    public static Warnings warnings = new Warnings();
     private final Buttons buttons;
     private static final String JAVA_ICON_PATH = "src/main/java/View/Sources/java.png";
     private static final String BACKGROUND_IMAGE_PATH = "src/main/java/View/Sources/espaco.jpg";
@@ -27,7 +31,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setSetup();
         setImage();
-        playBackgroundMusic();
+        //playBackgroundMusic();
 
         buttons = new Buttons();
         universe = new Universe();
@@ -39,7 +43,7 @@ public class MainFrame extends JFrame {
     }
 
     private void setSetup() {
-        setSize(800, 950);
+        setSize(1400, 950);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -76,8 +80,17 @@ public class MainFrame extends JFrame {
     }
 
     public void organize(){
+
         add(buttons, BorderLayout.NORTH);
-        add(universe, BorderLayout.CENTER);
+
+        JPanel teste = new JPanel(new FlowLayout());
+        teste.setOpaque(false);
+        teste.add(ranking);
+        teste.add(universe);
+        teste.add(warnings);
+
+        add(teste, BorderLayout.CENTER);
+
     }
 
     private List<Planets> instances(){

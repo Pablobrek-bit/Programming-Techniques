@@ -6,10 +6,8 @@ import View.ExecutableMove;
 import Model.Archives.manageFiles.ManagementArchiveModel;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ManagementArchiveController{
 
@@ -370,6 +368,30 @@ public class ManagementArchiveController{
         }
 
         return planetWithHighestAverageSpeed;
+    }
+
+    private Map<String, Integer> countNameOccurrences(List<String[]> nameList) {
+        Map<String, Integer> nameCountMap = new HashMap<>();
+
+        for (String[] record : nameList) {
+            String name = record[0];
+
+            nameCountMap.put(name, nameCountMap.getOrDefault(name, 0) + 1);
+        }
+
+        return nameCountMap;
+    }
+
+    public List<String> rankNamesByOccurrences() {
+        Map<String, Integer> nameCountMap = countNameOccurrences(javaLar);
+
+        List<String> rankedNames = nameCountMap.entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return rankedNames;
     }
 
     public String buildReport(){

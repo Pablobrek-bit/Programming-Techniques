@@ -4,8 +4,12 @@ import Control.ManagementControl.ManagementArchiveController;
 import Model.DAO.PlanetsDAO;
 import View.Components.Icons;
 import View.Components.MyButton;
+import View.Containers.Ranking;
+import View.Containers.Universe.MainFrame;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +32,7 @@ public class Buttons extends JPanel {
     public Buttons() {
         setLayout(new FlowLayout(FlowLayout.RIGHT));
         setOpaque(false);
+        setBorder(new LineBorder(Color.red, 1));
         setPreferredSize(new Dimension(700, 80));
 
         organize();
@@ -41,10 +46,10 @@ public class Buttons extends JPanel {
 
     private void addImages() {
         leadNewArchive.addImage(Icons.createIcon("src/main/java/View/Sources/folder.png", IMAGESIZE, IMAGESIZE));
-        processInstant.addImage(Icons.createIcon("src/main/java/View/Sources/direito.png", IMAGESIZE, IMAGESIZE));
-        saveReport.addImage(Icons.createIcon("src/main/java/View/Sources/save-archive.png", IMAGESIZE, IMAGESIZE));
-        readDataParticipants.addImage(Icons.createIcon("src/main/java/View/Sources/banco-de-dados.png", IMAGESIZE, IMAGESIZE));
-        saveArchive.addImage(Icons.createIcon("src/main/java/View/Sources/save-archive-exit.png", IMAGESIZE, IMAGESIZE));
+        processInstant.addImage(Icons.createIcon("src/main/java/View/Sources/right-arrow.png", IMAGESIZE, IMAGESIZE));
+        saveReport.addImage(Icons.createIcon("src/main/java/View/Sources/diskette.png", IMAGESIZE, IMAGESIZE));
+        readDataParticipants.addImage(Icons.createIcon("src/main/java/View/Sources/database-storage.png", IMAGESIZE, IMAGESIZE));
+        saveArchive.addImage(Icons.createIcon("src/main/java/View/Sources/sheet.png", IMAGESIZE, IMAGESIZE));
     }
 
     private void addButtons() {
@@ -87,7 +92,7 @@ public class Buttons extends JPanel {
         private void processInstantClicked() {
             if (ManagementArchiveController.archiveSelected != null) {
                 managementArchiveController.run();
-                //startProcessingLoop();
+                startProcessingLoop();
             } else {
                 JOptionPane.showMessageDialog(null, "Select one option", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -104,11 +109,12 @@ public class Buttons extends JPanel {
 
         private void readDataParticipantsClicked() {
             managementArchiveController.javaLar = planetsDAO.getJavaLar();
+            MainFrame.ranking.updateRanking(managementArchiveController.rankNamesByOccurrences());
         }
 
         private void saveArchiveClicked() {
             System.out.println(managementArchiveController.buildReport());
-
+            System.out.println(managementArchiveController.rankNamesByOccurrences());
         }
 
         private void getFile() {
@@ -128,7 +134,7 @@ public class Buttons extends JPanel {
 
         private void startProcessingLoop() {
             timer = new Timer(500, new ActionListener() {
-                int countdown = 0; // Tempo inicial em segundos
+                int countdown = 0;
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -138,8 +144,8 @@ public class Buttons extends JPanel {
                     } else {
                         managementArchiveController.run();
                         planetsDAO.insertJavaLar();
-                        planetsDAO.insertJavaLar();
-                        planetsDAO.insertJavaLar();
+//                        planetsDAO.insertJavaLar();
+//                        planetsDAO.insertJavaLar();
                         timer.stop();
                         startProcessingLoop();
                     }
