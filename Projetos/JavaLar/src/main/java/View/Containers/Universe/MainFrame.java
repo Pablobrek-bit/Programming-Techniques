@@ -1,12 +1,16 @@
 package View.Containers.Universe;
 
 import View.Containers.Interaction.Buttons;
-import View.Components.Create;
+import View.Components.Icons;
 import Model.Entities.Components.Planets;
 import Model.Entities.Planets.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +20,14 @@ public class MainFrame extends JFrame {
     private final Buttons buttons;
     private static final String JAVA_ICON_PATH = "src/main/java/View/Sources/java.png";
     private static final String BACKGROUND_IMAGE_PATH = "src/main/java/View/Sources/espaco.jpg";
-    private final Image BACKGROUND_IMAGE = Create.createIcon(BACKGROUND_IMAGE_PATH, 800, 950).getImage();
+    private static final String BACKGROUND_MUSIC_PATH = "src/main/java/View/Sources/InterstellarSong.wav";
+    private final Image BACKGROUND_IMAGE = Icons.createIcon(BACKGROUND_IMAGE_PATH, 800, 950).getImage();
 
 
     public MainFrame() {
         setSetup();
         setImage();
+        playBackgroundMusic();
 
         buttons = new Buttons();
         universe = new Universe();
@@ -38,7 +44,7 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        setIconImage(Create.createIcon(JAVA_ICON_PATH, 48, 48).getImage());
+        setIconImage(Icons.createIcon(JAVA_ICON_PATH, 48, 48).getImage());
     }
 
     private void setImage(){
@@ -54,6 +60,19 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+
+    private void playBackgroundMusic() {
+        try {
+            File soundFile = new File(BACKGROUND_MUSIC_PATH);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void organize(){

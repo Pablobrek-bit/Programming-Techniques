@@ -20,8 +20,8 @@ public class ManagementArchiveModel {
     private void validateFileExistence() {
         File file = new File(path);
         if (!file.exists()) {
-            showErrorDialog("Arquivo não encontrado");
-            throw new RuntimeException("Arquivo não encontrado");
+            showErrorDialog("Archive not found");
+            throw new RuntimeException("Archive not found");
         }
     }
 
@@ -58,7 +58,6 @@ public class ManagementArchiveModel {
     }
 
     public String[] getArchive(int line) {
-        System.out.println("Tamanho do arquivo: " + archive.length);
         return archive[line].split(",");
     }
 }

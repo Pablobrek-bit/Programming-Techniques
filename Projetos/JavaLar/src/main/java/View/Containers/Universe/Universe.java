@@ -1,7 +1,7 @@
 package View.Containers.Universe;
 
 import View.Components.MyLabel;
-import View.Components.Create;
+import View.Components.Icons;
 import Model.Entities.BugsDevs.BugsDevs;
 import Model.Entities.Components.Coordinates;
 import Model.Entities.Components.Planets;
@@ -21,8 +21,9 @@ public class Universe extends JPanel {
     private static final String JAVA_IMAGE = "src/main/java/View/Sources/java.png";
     private static final String BUG_IMAGE = "src/main/java/View/Sources/Bug.jpg";
     private static final String DEV_IMAGE = "src/main/java/View/Sources/Dev_Second.jpg";
-    private static final ImageIcon BUG_ICON = Create.createIcon(BUG_IMAGE, 38, 38);
-    private static final ImageIcon DEV_ICON = Create.createIcon(DEV_IMAGE, 38, 38);
+    private static final ImageIcon BUG_ICON = Icons.createIcon(BUG_IMAGE, 38, 38);
+    private static final ImageIcon DEV_ICON = Icons.createIcon(DEV_IMAGE, 38, 38);
+    private static final ImageIcon JAVA_ICON = Icons.createIcon(JAVA_IMAGE, 38, 38);
     private static final int ICON_SIZE = 38;
 
     public Universe() {
@@ -34,20 +35,6 @@ public class Universe extends JPanel {
         setOpaque(false);
         setPreferredSize(new Dimension(700, 700));
     }
-
-//    public void updates(List<Planets> planets) {
-//        updatePlanets(planets);
-//        revalidate();
-//        repaint();
-//    }
-
-//    public void updates(List<Planets> planets) {
-//        SwingUtilities.invokeLater(() -> {
-//            updatePlanets(planets);
-//            revalidate();
-//            repaint();
-//        });
-//    }
 
     public void buildUniverse() {
         int contX = 14;
@@ -76,7 +63,7 @@ public class Universe extends JPanel {
                 Coordinates positionCoordinates = position.getCoordinates();
 
                 if (positionCoordinates.getX() == 8 && positionCoordinates.getY() == 12) {
-                    updatePosition(position, Create.createIcon(JAVA_IMAGE, ICON_SIZE, ICON_SIZE));
+                    updatePosition(position, JAVA_ICON);
                 } else {
                     for (Planets planet : planets) {
                         if (planet.isAlive()) {

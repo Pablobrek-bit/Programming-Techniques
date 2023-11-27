@@ -2,11 +2,10 @@ package View.Containers.Interaction;
 
 import Control.ManagementControl.ManagementArchiveController;
 import Model.DAO.PlanetsDAO;
-import View.Components.Create;
+import View.Components.Icons;
 import View.Components.MyButton;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,11 +40,11 @@ public class Buttons extends JPanel {
     }
 
     private void addImages() {
-        leadNewArchive.addImage(Create.createIcon("src/main/java/View/Sources/folder.png", IMAGESIZE, IMAGESIZE));
-        processInstant.addImage(Create.createIcon("src/main/java/View/Sources/direito.png", IMAGESIZE, IMAGESIZE));
-        saveReport.addImage(Create.createIcon("src/main/java/View/Sources/save-archive.png", IMAGESIZE, IMAGESIZE));
-        readDataParticipants.addImage(Create.createIcon("src/main/java/View/Sources/banco-de-dados.png", IMAGESIZE, IMAGESIZE));
-        saveArchive.addImage(Create.createIcon("src/main/java/View/Sources/save-archive-exit.png", IMAGESIZE, IMAGESIZE));
+        leadNewArchive.addImage(Icons.createIcon("src/main/java/View/Sources/folder.png", IMAGESIZE, IMAGESIZE));
+        processInstant.addImage(Icons.createIcon("src/main/java/View/Sources/direito.png", IMAGESIZE, IMAGESIZE));
+        saveReport.addImage(Icons.createIcon("src/main/java/View/Sources/save-archive.png", IMAGESIZE, IMAGESIZE));
+        readDataParticipants.addImage(Icons.createIcon("src/main/java/View/Sources/banco-de-dados.png", IMAGESIZE, IMAGESIZE));
+        saveArchive.addImage(Icons.createIcon("src/main/java/View/Sources/save-archive-exit.png", IMAGESIZE, IMAGESIZE));
     }
 
     private void addButtons() {
@@ -90,7 +89,7 @@ public class Buttons extends JPanel {
                 managementArchiveController.run();
                 //startProcessingLoop();
             } else {
-                System.out.println("Selecione um arquivo");
+                JOptionPane.showMessageDialog(null, "Select one option", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -108,8 +107,8 @@ public class Buttons extends JPanel {
         }
 
         private void saveArchiveClicked() {
-            System.out.println("Nome mais comum: " + managementArchiveController.mostCommomName());
-            JOptionPane.showMessageDialog(null, managementArchiveController.mostCommomName(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println(managementArchiveController.buildReport());
+
         }
 
         private void getFile() {
@@ -129,7 +128,7 @@ public class Buttons extends JPanel {
 
         private void startProcessingLoop() {
             timer = new Timer(500, new ActionListener() {
-                int countdown = 5; // Tempo inicial em segundos
+                int countdown = 0; // Tempo inicial em segundos
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -138,6 +137,8 @@ public class Buttons extends JPanel {
                         countdown--;
                     } else {
                         managementArchiveController.run();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
                         planetsDAO.insertJavaLar();
                         timer.stop();
                         startProcessingLoop();

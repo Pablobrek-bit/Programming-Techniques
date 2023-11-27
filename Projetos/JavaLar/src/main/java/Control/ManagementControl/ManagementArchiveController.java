@@ -6,7 +6,6 @@ import View.ExecutableMove;
 import Model.Archives.manageFiles.ManagementArchiveModel;
 
 import javax.swing.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +18,12 @@ public class ManagementArchiveController{
     public static String archiveSelected;
     public List<String[]> javaLar;
     private int allLine;
+    private String reportDate;
 
 
 
-    public void run(){
-        if(!(archiveSelected == null)){
+    public void run() {
+        if (archiveSelected != null) {
             handleProcessInstant();
         } else {
             showErrorDialog("Select a file");
@@ -32,11 +32,9 @@ public class ManagementArchiveController{
 
 
     public void readArchive(){
-
         managementArchiveModel = new ManagementArchiveModel(archiveSelected);
         managementArchiveModel.readArchive();
         allLine = managementArchiveModel.extractNumberFromArchiveSelected();
-
     }
 
     public String[] getLine(int line){
@@ -52,8 +50,6 @@ public class ManagementArchiveController{
             executableMove.generateEntities(lineArchive);
             executableMove.movePlanets(lineArchive);
             MainFrame.universe.updates(ExecutableMove.planetsList);
-
-
         } else {
             showErrorDialog("End of file");
         }
@@ -64,7 +60,7 @@ public class ManagementArchiveController{
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public String mostCommomName(){
+    private String mostCommomName(){
         int size = javaLar.size();
         String[] names = new String[size];
         int[] counts = new int[size];
@@ -100,7 +96,6 @@ public class ManagementArchiveController{
         }
     }
 
-    //Metodo para achar a matricula usando o nome mais utilizado
     private String foundMatricula(String commomName){
         for (String[] strings : javaLar) {
             if (strings[0].equals(commomName)) {
@@ -110,10 +105,10 @@ public class ManagementArchiveController{
         return null;
     }
 
-    public void quadrantMostBugs() {
+    private String[] quadrantMostBugsDevs() {
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
-            return;
+            return null;
         }
 
         String[] bugQuadrants = {"39", "40", "41", "42"};
@@ -138,8 +133,11 @@ public class ManagementArchiveController{
         int maxBugsIndex = commomBugs(bugs);
         int maxDevsIndex = commomDevs(devs);
 
-        showErrorDialog("Quadrante com mais bugs: " + bugQuadrants[maxBugsIndex]);
-        showErrorDialog("Quadrante de dev com mais ocorrências: " + devQuadrants[maxDevsIndex]);
+        String[] quadrants = new String[2];
+        quadrants[0] = bugQuadrants[maxBugsIndex];
+        quadrants[1] = devQuadrants[maxDevsIndex];
+        return quadrants;
+
     }
 
     private int commomDevs(int[] devs) {
@@ -162,31 +160,10 @@ public class ManagementArchiveController{
         return maxBugsIndex;
     }
 
-    public void yearsTotal() {
+    private String hoursTotal() {
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
-            return;
-        }
-
-        int totalSum = 0;
-
-        for (String[] record : javaLar) {
-            int recordSum = 0;
-            for (int i = 32; i < 38; i++) {
-                recordSum += Integer.parseInt(record[i]);
-            }
-            totalSum += recordSum;
-        }
-
-        System.out.println("Soma total dos anos: " + totalSum);
-    }
-
-    //Agora fazer o metodo que pega todas as horas passadas no total
-    //O index das horas começa do 24 até o 30
-    public void hoursTotal() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return;
+            return null;
         }
 
         int totalSum = 0;
@@ -198,18 +175,14 @@ public class ManagementArchiveController{
             }
             totalSum += recordSum;
         }
+        return String.valueOf(totalSum);
 
-        System.out.println("Soma total das horas: " + totalSum);
     }
 
-    //agora criar um metodo que vai pegar todos os bugs ocorridos no sistema
-    //para isso é apenas somar os quadrantes de cada linha e depois somar todos os quadrantes
-    //os quadrantes dos bugs tem os index de 39 até 42
-
-    public void sumBugQuadrants() {
+    private String sumBugQuadrants() {
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
-            return;
+            return null;
         }
 
         int totalSum = 0;
@@ -224,14 +197,13 @@ public class ManagementArchiveController{
 
             totalSum += recordSum;
         }
-
-        System.out.println("Soma total dos quadrantes dos bugs em todo o banco de dados: " + totalSum);
+        return String.valueOf(totalSum);
     }
 
-    public void sumDevQuadrants() {
+    private String sumDevQuadrants() {
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
-            return;
+            return null;
         }
 
         int totalSum = 0;
@@ -239,31 +211,47 @@ public class ManagementArchiveController{
         for (String[] record : javaLar) {
             int recordSum = 0;
 
-            for (int i = 43; i <= 46; i++) {
-                recordSum += Integer.parseInt(record[i]);
+            if (record.length >= 47) {
+                for (int i = 43; i <= 46; i++) {
+                    if (record[i] != null && record[i].length() > 0) {
+                        try {
+                            recordSum += Integer.parseInt(record[i]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Erro ao converter para inteiro: " + record[i]);
+                        }
+                    }
+                }
             }
-
-
             totalSum += recordSum;
         }
 
-        System.out.println("Soma total dos quadrantes dos devs em todo o banco de dados: " + totalSum);
+        return String.valueOf(totalSum);
     }
 
-    public void totalInstants(){
+    private String totalYears(){
+        if (javaLar == null || javaLar.isEmpty()) {
+            System.out.println("Lista vazia ou nula");
+            return null;
+        }
 
-        System.out.println("Total de instants: " + javaLar.size());
+        int totalSum = 0;
 
+        for (String[] record : javaLar) {
+            int recordSum = 0;
+            for (int i = 32; i < 38; i++) {
+                recordSum += Integer.parseInt(record[i]);
+            }
+            totalSum += recordSum;
+        }
+        return String.valueOf(totalSum);
     }
 
-    //Agora fazer um metodo para poder achar a velocidade media de cada planeta
-    //Para isso é preciso pegar
-    public List<Double> averageSpeedPerPlanet() {
-        List<Double> averageSpeeds = new ArrayList<>();
+    private String[] averageSpeedPerPlanet() {
+        List<String> averageSpeeds = new ArrayList<>();
 
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
-            return averageSpeeds;
+            return averageSpeeds.toArray(new String[0]);
         }
 
         int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
@@ -277,48 +265,45 @@ public class ManagementArchiveController{
 
             double averageSpeed = (double) planetVelocitySum / javaLar.size();
 
-            averageSpeeds.add(averageSpeed);
+            averageSpeeds.add(String.valueOf(averageSpeed));
         }
 
-        return averageSpeeds;
+        return averageSpeeds.toArray(new String[0]);
     }
 
-    public String planetWithMostDeaths() {
+
+    private String planetWithMostDeaths() {
         if (javaLar == null || javaLar.isEmpty()) {
             System.out.println("Lista vazia ou nula");
             return "Nenhum planeta encontrado";
         }
 
-        // Índices das velocidades dos planetas
         int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
+        String[] planetNames = {"Python", "JS", "Ruby on Rails", "PHP", "C#", "C++", "C"};
 
-        // Mapa para armazenar as contagens de velocidades igual a 0 para cada planeta
         Map<String, Integer> deathsCountMap = new HashMap<>();
 
         for (int planetIndex = 0; planetIndex < velocityIndexes.length; planetIndex++) {
-            String planetName = "Planeta " + (planetIndex + 1); // Personalize conforme necessário
+            String planetName = String.valueOf((planetIndex + 1));
 
             int deathsCount = 0;
 
             for (String[] record : javaLar) {
-                // Verifica se a velocidade do planeta no registro atual é igual a 0
                 if (Integer.parseInt(record[velocityIndexes[planetIndex]]) == 0) {
                     deathsCount++;
                 }
             }
 
-            // Armazena a contagem no mapa
             deathsCountMap.put(planetName, deathsCount);
         }
 
-        // Encontra o planeta com mais ocorrências de velocidade igual a 0
         String planetWithMostDeaths = findMaxDeathsPlanet(deathsCountMap);
+        return planetNames[Integer.parseInt(planetWithMostDeaths)];
 
-        return "Planeta com mais mortes: " + planetWithMostDeaths;
     }
 
     private String findMaxDeathsPlanet(Map<String, Integer> deathsCountMap) {
-        String planetWithMostDeaths = "Nenhum planeta encontrado";
+        String planetWithMostDeaths = "No planet found";
         int maxDeaths = 0;
 
         for (Map.Entry<String, Integer> entry : deathsCountMap.entrySet()) {
@@ -331,51 +316,44 @@ public class ManagementArchiveController{
         return planetWithMostDeaths;
     }
 
-    public String planetWithHighestAverageSpeed() {
+    private String planetWithHighestAverageSpeed() {
         if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return "Nenhum planeta encontrado";
+            System.out.println("Empty or null list");
+            return "No planet found";
         }
 
-        // Índices das velocidades dos planetas
         int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
+        String[] planetsNames = {"Python", "JS", "Ruby on Rails", "PHP", "C#", "C++", "C"};
 
-        // Mapa para armazenar as somas de velocidades para cada planeta
         Map<String, Integer> totalSpeedMap = new HashMap<>();
 
-        // Mapa para armazenar o número de ocorrências para cada planeta
         Map<String, Integer> occurrencesMap = new HashMap<>();
 
         for (int planetIndex = 0; planetIndex < velocityIndexes.length; planetIndex++) {
-            String planetName = "Planeta " + (planetIndex + 1); // Personalize conforme necessário
+            String planetName = String.valueOf(planetIndex + 1);
 
             int totalSpeed = 0;
             int occurrences = 0;
 
             for (String[] record : javaLar) {
-                // Obtém a velocidade do planeta no registro atual
                 int speed = Integer.parseInt(record[velocityIndexes[planetIndex]]);
 
-                // Verifica se a velocidade é maior que zero
                 if (speed > 0) {
                     totalSpeed += speed;
                     occurrences++;
                 }
             }
 
-            // Armazena a soma e o número de ocorrências no mapa
             totalSpeedMap.put(planetName, totalSpeed);
             occurrencesMap.put(planetName, occurrences);
         }
 
-        // Encontra o planeta com a maior velocidade média
         String planetWithHighestAverageSpeed = findPlanetWithHighestAverageSpeed(totalSpeedMap, occurrencesMap);
-
-        return "Planeta com maior velocidade média: " + planetWithHighestAverageSpeed;
+        return planetsNames[Integer.parseInt(planetWithHighestAverageSpeed) - 1];
     }
 
     private String findPlanetWithHighestAverageSpeed(Map<String, Integer> totalSpeedMap, Map<String, Integer> occurrencesMap) {
-        String planetWithHighestAverageSpeed = "Nenhum planeta encontrado";
+        String planetWithHighestAverageSpeed = "No planet found";
         double maxAverageSpeed = 0;
 
         for (Map.Entry<String, Integer> entry : totalSpeedMap.entrySet()) {
@@ -383,10 +361,8 @@ public class ManagementArchiveController{
             int totalSpeed = entry.getValue();
             int occurrences = occurrencesMap.get(planetName);
 
-            // Calcula a velocidade média
             double averageSpeed = (double) totalSpeed / occurrences;
 
-            // Verifica se a velocidade média é maior que a atual máxima
             if (averageSpeed > maxAverageSpeed) {
                 maxAverageSpeed = averageSpeed;
                 planetWithHighestAverageSpeed = planetName;
@@ -394,6 +370,30 @@ public class ManagementArchiveController{
         }
 
         return planetWithHighestAverageSpeed;
+    }
+
+    public String buildReport(){
+        String commumName = mostCommomName();
+        String matricula = foundMatricula(commumName);
+        String planetWithMostDeaths = planetWithMostDeaths();
+        String planetWithHighestAverageSpeed = planetWithHighestAverageSpeed();
+        String[] quadrant = quadrantMostBugsDevs();
+        String quadrantMostBugs = quadrant[0];
+        String quadrantMostDevs = quadrant[1];
+        String totalInstants = String.valueOf(javaLar.size());
+        String[] averageSpeedPerPlanet = averageSpeedPerPlanet();
+        String bugs = String.valueOf(sumBugQuadrants());
+        String devs = String.valueOf(sumDevQuadrants());
+        String hours = String.valueOf(hoursTotal());
+        String years = totalYears();
+
+        reportDate = matricula + " - " + commumName + ", " + planetWithMostDeaths + ", " + planetWithHighestAverageSpeed + ", " +
+                quadrantMostBugs + ", " + quadrantMostDevs + ", " + totalInstants + ", Python: " + averageSpeedPerPlanet[0] + " - JavaScript:" +
+                averageSpeedPerPlanet[1] + " - Ruby on Rails: " + averageSpeedPerPlanet[2] + " \n- PH: "+ averageSpeedPerPlanet[3] +
+                " - C#: " + averageSpeedPerPlanet[4] + " - C++: " + averageSpeedPerPlanet[5] + " - C: " + averageSpeedPerPlanet[6] +
+                ", " + bugs + ", " + devs + ", " + hours + ", " + years;
+
+        return reportDate;
     }
 
 }

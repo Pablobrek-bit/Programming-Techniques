@@ -7,9 +7,11 @@ import Model.Entities.BugsDevs.BugsDevs;
 import Model.Entities.Components.Planets;
 import View.ExecutableMove;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,23 +102,21 @@ public class PlanetsDAO {
             stmt.setInt(45, devsQuadThree);
             stmt.setInt(46, devsQuadFour);
 
-//            insertPersonalInfo(stmt);
-//            insertBugs(stmt, planets);
-//            insertDevs(stmt, planets);
-//            insertVelocity(stmt, planets);
-//            insertHours(stmt, planets);
-//            insertYears(stmt, planets);
-//            insertQuadrants(stmt, planets.size());
+
 
             stmt.executeUpdate();
-            System.out.println("Inserção realizada com sucesso!");
-
+            System.out.println("Insertion successful!");
+            //JOptionPane.showMessageDialog(null, "Insertion successful!", "Success", JOptionPane.OK_OPTION);
         } catch (Exception e) {
-            System.out.println("Erro ao inserir no banco de dados: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error inserting data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error inserting data: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+
+
+
 
     public List<String[]> getJavaLar(){
         Connection con = ConnectionFactory.getConnection();
@@ -142,13 +142,14 @@ public class PlanetsDAO {
 
                 javaLar.add(datas);
             }
+            JOptionPane.showMessageDialog(null, "Data read successfully!", "Success", JOptionPane.OK_OPTION);
 
         }catch (Exception e){
 
-            System.out.println("Erro ao inserir no banco de dados: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error reading data: " + e.getMessage());
 
         } finally {
-
             ConnectionFactory.closeConnection(con, stmt, rs);
 
         }
@@ -157,19 +158,19 @@ public class PlanetsDAO {
 
     }
 
-    public void getVelocity(List<Planets> planets){
+    private  void getVelocity(List<Planets> planets){
         for (Planets planet : planets) {
             velocity.add(calculation.mediaVelocity(planet));
         }
     }
 
-    public void getHoras(List<Planets> planets){
+    private void getHoras(List<Planets> planets){
         for (Planets planet : planets) {
             hours.add(calculation.quantityDays(planet.getInstants(), planet.getRotation()));
         }
     }
 
-    public void getQuadrante() {
+    private void getQuadrante() {
         Integer[] quadranteUmDoisBugs = Calculation.northEntity(BugsDevs.getBugs());
         bugsQuadOne = quadranteUmDoisBugs[0];
         bugsQuadTwo = quadranteUmDoisBugs[1];
