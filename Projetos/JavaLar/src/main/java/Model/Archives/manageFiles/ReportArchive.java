@@ -6,20 +6,12 @@ public class ReportArchive {
 
     private static final String PATH = "src/main/java/Model/Archives/manageFiles/ReportArchive.txt";
 
-    public boolean saveReport(String dates){
-        File file = new File(PATH);
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(file, false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(dates);
-            bufferedWriter.close();
-            fileWriter.close();
-
+    public boolean saveReport(String data) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(PATH, false))) {
+            bufferedWriter.write(data);
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while saving the report.", e);
         }
-
     }
 }

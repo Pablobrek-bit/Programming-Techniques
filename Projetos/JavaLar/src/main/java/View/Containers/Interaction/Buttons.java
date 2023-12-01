@@ -32,7 +32,6 @@ public class Buttons extends JPanel {
     public Buttons() {
         setLayout(new FlowLayout(FlowLayout.RIGHT));
         setOpaque(false);
-        setBorder(new LineBorder(Color.red, 1));
         setPreferredSize(new Dimension(700, 80));
 
         organize();
@@ -64,7 +63,7 @@ public class Buttons extends JPanel {
         processInstant.addMouseListener(new MyButtonMouseListener(processInstant));
         leadNewArchive.addMouseListener(new MyButtonMouseListener(leadNewArchive));
         saveReport.addMouseListener(new MyButtonMouseListener(saveReport));
-            readDataParticipants.addMouseListener(new MyButtonMouseListener(readDataParticipants));
+        readDataParticipants.addMouseListener(new MyButtonMouseListener(readDataParticipants));
         saveArchive.addMouseListener(new MyButtonMouseListener(saveArchive));
     }
 
@@ -92,7 +91,7 @@ public class Buttons extends JPanel {
         private void processInstantClicked() {
             if (ManagementArchiveController.archiveSelected != null) {
                 managementArchiveController.run();
-                startProcessingLoop();
+                //startProcessingLoop();
             } else {
                 JOptionPane.showMessageDialog(null, "Select one option", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -113,8 +112,11 @@ public class Buttons extends JPanel {
         }
 
         private void saveArchiveClicked() {
-            System.out.println(managementArchiveController.buildReport());
-            System.out.println(managementArchiveController.rankNamesByOccurrences());
+            if(managementArchiveController.buildReport()){
+                JOptionPane.showMessageDialog(null, "Report saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Error saving report!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         private void getFile() {
@@ -144,8 +146,12 @@ public class Buttons extends JPanel {
                     } else {
                         managementArchiveController.run();
                         planetsDAO.insertJavaLar();
-//                        planetsDAO.insertJavaLar();
-//                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
+                        planetsDAO.insertJavaLar();
                         timer.stop();
                         startProcessingLoop();
                     }

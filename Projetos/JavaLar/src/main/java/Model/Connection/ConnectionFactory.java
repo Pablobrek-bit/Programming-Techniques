@@ -6,16 +6,18 @@ import java.sql.*;
 public class ConnectionFactory {
 
     private static final String URL = "jdbc:mysql://da_java.mysql.dbaas.com.br/da_java";
-    private static final String username = "da_java";
-    private static final String password = "Tecnicas*2023@";
+    private static final String USERNAME = "da_java";
+    private static final String PASSWORD = "Tecnicas*2023@";
 
 
     public static Connection getConnection(){
+
         try {
-            return DriverManager.getConnection(URL, username, password);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public static void closeConnection(Connection con){

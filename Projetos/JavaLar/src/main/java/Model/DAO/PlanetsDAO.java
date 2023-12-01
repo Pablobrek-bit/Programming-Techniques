@@ -1,17 +1,15 @@
 package Model.DAO;
 
 import Control.Calculations.Calculation;
-import Model.Archives.manageFiles.ManagementArchiveModel;
 import Model.Connection.ConnectionFactory;
 import Model.Entities.BugsDevs.BugsDevs;
 import Model.Entities.Components.Planets;
-import View.ExecutableMove;
+import Control.ExecutableMove;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +33,10 @@ public class PlanetsDAO {
     public void insertJavaLar() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         List<Planets> planets = ExecutableMove.planetsList;
 
         getHoras(planets);
-        getQuadrante();
+        getQuadrant();
         getVelocity(planets);
 
         try {
@@ -58,6 +55,8 @@ public class PlanetsDAO {
             stmt.setString(1, NAME);
             stmt.setString(2, MATRICULA);
             stmt.setString(3, "AE_1500.csv");
+
+
             stmt.setInt(4, planets.get(0).getHitBugs());
             stmt.setInt(5, planets.get(1).getHitBugs());
             stmt.setInt(6, planets.get(2).getHitBugs());
@@ -93,6 +92,24 @@ public class PlanetsDAO {
             stmt.setInt(36, planets.get(4).getYears());
             stmt.setInt(37, planets.get(5).getYears());
             stmt.setInt(38, planets.get(6).getYears());
+
+
+//            for(int i = 0; i < planets.size(); i++){
+//                stmt.setInt(i + 4, planets.get(i).getHitBugs());
+//            }
+//            for(int i = 0; i < planets.size() ; i++){
+//                stmt.setInt(i + 11, planets.get(i).getHitDevs());
+//            }
+//            for(int i = 0; i < velocity.size(); i++){
+//                stmt.setInt(i + 18, velocity.get(i));
+//            }
+//            for(int i = 0; i < hours.size(); i++){
+//                stmt.setInt(i + 25, hours.get(i));
+//            }
+//            for(int i = 0; i < planets.size(); i++){
+//                stmt.setInt(i + 32, planets.get(i).getYears());
+//            }
+
             stmt.setInt(39, bugsQuadOne);
             stmt.setInt(40, bugsQuadTwo);
             stmt.setInt(41, bugsQuadThree);
@@ -111,7 +128,7 @@ public class PlanetsDAO {
             JOptionPane.showMessageDialog(null, "Error inserting data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("Error inserting data: " + e.getMessage());
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 
@@ -126,23 +143,22 @@ public class PlanetsDAO {
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM javalar");
+            stmt = con.prepareStatement("SELECT * FROM javalar where id < 1000");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String[] datas = new String[46];
+                String[] datas = new String[45];
 
-                datas[0] = rs.getString("nome"); //2
-                datas[1] = rs.getString("matricula"); //3
-                datas[2] = rs.getString("nome_arquivo"); //4
+                datas[0] = rs.getString("nome");
+                datas[1] = rs.getString("matricula");
+                datas[2] = rs.getString("nome_arquivo");
 
                 for (int i = 5; i <= 46; i++) {
                     datas[i - 2] = String.valueOf(rs.getInt(i));
                 }
-
                 javaLar.add(datas);
             }
-            JOptionPane.showMessageDialog(null, "Data read successfully!", "Success", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Data read successfully!");
 
         }catch (Exception e){
 
@@ -151,11 +167,16 @@ public class PlanetsDAO {
 
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
-
         }
 
         return javaLar;
 
+    }
+
+    public void imprimirLinhas(String[] linha) {
+        for (String s : linha) {
+            System.out.println(s);
+        }
     }
 
     private  void getVelocity(List<Planets> planets){
@@ -170,22 +191,22 @@ public class PlanetsDAO {
         }
     }
 
-    private void getQuadrante() {
-        Integer[] quadranteUmDoisBugs = Calculation.northEntity(BugsDevs.getBugs());
-        bugsQuadOne = quadranteUmDoisBugs[0];
-        bugsQuadTwo = quadranteUmDoisBugs[1];
+    private void getQuadrant() {
+        Integer[] quadOneTwoBugs = Calculation.northEntity(BugsDevs.getBugs());
+        bugsQuadOne = quadOneTwoBugs[0];
+        bugsQuadTwo = quadOneTwoBugs[1];
 
-        Integer[] quadranteTresQuatroBugs = Calculation.southEntity(BugsDevs.getBugs());
-        bugsQuadThree = quadranteTresQuatroBugs[0];
-        bugsQuadFour = quadranteTresQuatroBugs[1];
+        Integer[] quadThreeFourBugs = Calculation.southEntity(BugsDevs.getBugs());
+        bugsQuadThree = quadThreeFourBugs[0];
+        bugsQuadFour = quadThreeFourBugs[1];
 
-        Integer[] quadranteUmDoisDevs = Calculation.northEntity(BugsDevs.getDevs());
-        devsQuadOne = quadranteUmDoisDevs[0];
-        devsQuadTwo = quadranteUmDoisDevs[1];
+        Integer[] quadOneTwoDevs = Calculation.northEntity(BugsDevs.getDevs());
+        devsQuadOne = quadOneTwoDevs[0];
+        devsQuadTwo = quadOneTwoDevs[1];
 
-        Integer[] quadranteTresQuatroDevs = Calculation.southEntity(BugsDevs.getDevs());
-        devsQuadThree = quadranteTresQuatroDevs[0];
-        devsQuadFour = quadranteTresQuatroDevs[1];
+        Integer[] quadThreeFourDevs = Calculation.southEntity(BugsDevs.getDevs());
+        devsQuadThree = quadThreeFourDevs[0];
+        devsQuadFour = quadThreeFourDevs[1];
     }
 }
 

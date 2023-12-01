@@ -1,11 +1,13 @@
 package Control.ManagementControl;
 
+import Model.Archives.manageFiles.ReportArchive;
 import View.Containers.Interaction.Buttons;
 import View.Containers.Universe.MainFrame;
-import View.ExecutableMove;
+import Control.ExecutableMove;
 import Model.Archives.manageFiles.ManagementArchiveModel;
 
 import javax.swing.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,11 +23,9 @@ public class ManagementArchiveController{
 
 
     public void run() {
-        if (archiveSelected != null) {
+    	
             handleProcessInstant();
-        } else {
-            showErrorDialog("Select a file");
-        }
+            
     }
 
 
@@ -69,10 +69,8 @@ public class ManagementArchiveController{
         }
         countFrequency(names, counts);
         int maxCountIndex = commomName(counts);
-
         return names[maxCountIndex];
     }
-
     private int commomName(int[] counts) {
         int maxCountIndex = 0;
         for (int i = 1; i < javaLar.size(); i++) {
@@ -82,7 +80,6 @@ public class ManagementArchiveController{
         }
         return maxCountIndex;
     }
-
     private void countFrequency(String[] names, int[] counts) {
         for (int i = 0; i < javaLar.size(); i++) {
             for (int j = i; j < javaLar.size(); j++) {
@@ -104,10 +101,6 @@ public class ManagementArchiveController{
     }
 
     private String[] quadrantMostBugsDevs() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return null;
-        }
 
         String[] bugQuadrants = {"39", "40", "41", "42"};
         String[] devQuadrants = {"43", "44", "45", "46"};
@@ -116,13 +109,13 @@ public class ManagementArchiveController{
 
         for (String[] record : javaLar) {
             for (int i = 0; i < bugQuadrants.length; i++) {
-                if (bugQuadrants[i].equals(record[38])) {
+                if (bugQuadrants[i].equals(record[36])) {
                     bugs[i]++;
                     break;
                 }
             }
 
-            int devIndex = Integer.parseInt(record[42]) - 43;
+            int devIndex = Integer.parseInt(record[40]) - 41;
             if (devIndex >= 0 && devIndex < devs.length) {
                 devs[devIndex]++;
             }
@@ -132,8 +125,10 @@ public class ManagementArchiveController{
         int maxDevsIndex = commomDevs(devs);
 
         String[] quadrants = new String[2];
-        quadrants[0] = bugQuadrants[maxBugsIndex];
-        quadrants[1] = devQuadrants[maxDevsIndex];
+        int bugQuadrant = Integer.parseInt(bugQuadrants[maxBugsIndex]) - 38;
+        int devQuadrant = Integer.parseInt(devQuadrants[maxDevsIndex]) - 42;
+        quadrants[0] = String.valueOf(bugQuadrant);
+        quadrants[1] = String.valueOf(devQuadrant);
         return quadrants;
 
     }
@@ -168,7 +163,7 @@ public class ManagementArchiveController{
 
         for (String[] record : javaLar) {
             int recordSum = 0;
-            for (int i = 25; i < 32; i++) {
+            for (int i = 23; i <= 29; i++) {
                 recordSum += Integer.parseInt(record[i]);
             }
             totalSum += recordSum;
@@ -178,17 +173,13 @@ public class ManagementArchiveController{
     }
 
     private String sumBugQuadrants() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return null;
-        }
 
         int totalSum = 0;
 
         for (String[] record : javaLar) {
             int recordSum = 0;
 
-            for (int i = 39; i <= 42; i++) {
+            for (int i = 37; i <= 40; i++) {
                 recordSum += Integer.parseInt(record[i]);
             }
 
@@ -199,27 +190,16 @@ public class ManagementArchiveController{
     }
 
     private String sumDevQuadrants() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return null;
-        }
-
         int totalSum = 0;
 
         for (String[] record : javaLar) {
+
             int recordSum = 0;
 
-            if (record.length >= 47) {
-                for (int i = 43; i <= 46; i++) {
-                    if (record[i] != null && record[i].length() > 0) {
-                        try {
-                            recordSum += Integer.parseInt(record[i]);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Erro ao converter para inteiro: " + record[i]);
-                        }
-                    }
-                }
+            for (int i = 41; i < 45; i++) {
+                recordSum += Integer.parseInt(record[i]);
             }
+
             totalSum += recordSum;
         }
 
@@ -227,16 +207,12 @@ public class ManagementArchiveController{
     }
 
     private String totalYears(){
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return null;
-        }
 
         int totalSum = 0;
 
         for (String[] record : javaLar) {
             int recordSum = 0;
-            for (int i = 32; i < 38; i++) {
+            for (int i = 30; i <= 36; i++) {
                 recordSum += Integer.parseInt(record[i]);
             }
             totalSum += recordSum;
@@ -246,11 +222,6 @@ public class ManagementArchiveController{
 
     private String[] averageSpeedPerPlanet() {
         List<String> averageSpeeds = new ArrayList<>();
-
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return averageSpeeds.toArray(new String[0]);
-        }
 
         int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
 
@@ -271,12 +242,7 @@ public class ManagementArchiveController{
 
 
     private String planetWithMostDeaths() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Lista vazia ou nula");
-            return "Nenhum planeta encontrado";
-        }
-
-        int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
+        int[] velocityIndexes = {16,17,18,19,20,21,22};
         String[] planetNames = {"Python", "JS", "Ruby on Rails", "PHP", "C#", "C++", "C"};
 
         Map<String, Integer> deathsCountMap = new HashMap<>();
@@ -315,12 +281,10 @@ public class ManagementArchiveController{
     }
 
     private String planetWithHighestAverageSpeed() {
-        if (javaLar == null || javaLar.isEmpty()) {
-            System.out.println("Empty or null list");
-            return "No planet found";
-        }
 
-        int[] velocityIndexes = {18, 19, 20, 21, 22, 23, 24};
+
+        int[] velocityIndexes = {16,17,18,19,20,21,22};
+
         String[] planetsNames = {"Python", "JS", "Ruby on Rails", "PHP", "C#", "C++", "C"};
 
         Map<String, Integer> totalSpeedMap = new HashMap<>();
@@ -394,7 +358,9 @@ public class ManagementArchiveController{
         return rankedNames;
     }
 
-    public String buildReport(){
+    public boolean buildReport(){
+        ReportArchive reportArchive = new ReportArchive();
+
         String commumName = mostCommomName();
         String matricula = foundMatricula(commumName);
         String planetWithMostDeaths = planetWithMostDeaths();
@@ -409,13 +375,21 @@ public class ManagementArchiveController{
         String hours = String.valueOf(hoursTotal());
         String years = totalYears();
 
-        reportDate = matricula + " - " + commumName + ", " + planetWithMostDeaths + ", " + planetWithHighestAverageSpeed + ", " +
-                quadrantMostBugs + ", " + quadrantMostDevs + ", " + totalInstants + ", Python: " + averageSpeedPerPlanet[0] + " - JavaScript:" +
-                averageSpeedPerPlanet[1] + " - Ruby on Rails: " + averageSpeedPerPlanet[2] + " \n- PH: "+ averageSpeedPerPlanet[3] +
-                " - C#: " + averageSpeedPerPlanet[4] + " - C++: " + averageSpeedPerPlanet[5] + " - C: " + averageSpeedPerPlanet[6] +
-                ", " + bugs + ", " + devs + ", " + hours + ", " + years;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-        return reportDate;
+        reportDate = matricula + " - " + commumName + ", " + planetWithMostDeaths() + ", " +
+                planetWithHighestAverageSpeed() + ", " + quadrantMostBugs + ", " +
+                quadrantMostDevs + ", " + totalInstants + ", Python: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[0])) + " - JavaScript: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[1])) + " - Ruby on Rails: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[2])) + " \n- PH: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[3])) + " - C#: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[4])) + " - C++: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[5])) + " - C: " +
+                decimalFormat.format(Double.parseDouble(averageSpeedPerPlanet[6])) + ", " +
+                bugs + ", " + devs + ", " + hours + ", " + years;
+        System.out.println(reportDate);
+        return reportArchive.saveReport(reportDate);
     }
 
 }

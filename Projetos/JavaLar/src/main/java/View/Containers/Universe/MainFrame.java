@@ -1,9 +1,9 @@
 package View.Containers.Universe;
 
-import View.Containers.Interaction.Buttons;
 import View.Components.Icons;
 import Model.Entities.Components.Planets;
 import Model.Entities.Planets.*;
+import View.Containers.Interaction.Buttons;
 import View.Containers.Ranking;
 import View.Containers.Warnings;
 
@@ -21,28 +21,29 @@ public class MainFrame extends JFrame {
     public static Universe universe;
     public static Ranking ranking = new Ranking();
     public static Warnings warnings = new Warnings();
-    private final Buttons buttons;
+    private  Buttons buttons;
     private static final String JAVA_ICON_PATH = "src/main/java/View/Sources/java.png";
     private static final String BACKGROUND_IMAGE_PATH = "src/main/java/View/Sources/espaco.jpg";
     private static final String BACKGROUND_MUSIC_PATH = "src/main/java/View/Sources/InterstellarSong.wav";
     private final Image BACKGROUND_IMAGE = Icons.createIcon(BACKGROUND_IMAGE_PATH, 800, 950).getImage();
 
-
     public MainFrame() {
-        setSetup();
-        setImage();
-        //playBackgroundMusic();
+        initialize();
+        organizeComponents();
+    }
+
+    private void initialize() {
+        setMainFrameSetup();
+        setBackgroundImage();
+        // playBackgroundMusic();
 
         buttons = new Buttons();
         universe = new Universe();
         universe.buildUniverse();
         universe.updates(instances());
-
-
-        organize();
     }
 
-    private void setSetup() {
+    private void setMainFrameSetup() {
         setSize(1400, 950);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -51,7 +52,7 @@ public class MainFrame extends JFrame {
         setIconImage(Icons.createIcon(JAVA_ICON_PATH, 48, 48).getImage());
     }
 
-    private void setImage(){
+    private void setBackgroundImage() {
         setContentPane(new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -79,21 +80,23 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void organize(){
-
+    private void organizeComponents() {
         add(buttons, BorderLayout.NORTH);
 
-        JPanel teste = new JPanel(new FlowLayout());
-        teste.setOpaque(false);
-        teste.add(ranking);
-        teste.add(universe);
-        teste.add(warnings);
-
-        add(teste, BorderLayout.CENTER);
-
+        JPanel flowPanel = createFlowPanel();
+        add(flowPanel, BorderLayout.CENTER);
     }
 
-    private List<Planets> instances(){
+    private JPanel createFlowPanel() {
+        JPanel flowPanel = new JPanel(new FlowLayout());
+        flowPanel.setOpaque(false);
+        flowPanel.add(ranking);
+        flowPanel.add(universe);
+        flowPanel.add(warnings);
+        return flowPanel;
+    }
+
+    private List<Planets> instances() {
         List<Planets> planetsList = new ArrayList<>();
 
         planetsList.add(new C());
@@ -106,5 +109,4 @@ public class MainFrame extends JFrame {
 
         return planetsList;
     }
-
 }

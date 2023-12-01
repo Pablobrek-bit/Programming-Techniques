@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ManagementArchiveModel {
     private static String path;
-    private String archiveSelected;
+    private final String archiveSelected;
     private static String[] archive;
 
     public ManagementArchiveModel(String archiveSelected) {
@@ -58,6 +58,11 @@ public class ManagementArchiveModel {
     }
 
     public String[] getArchive(int line) {
-        return archive[line].split(",");
+        if (line >= 0 && line < archive.length) {
+            return archive[line].split(",");
+        } else {
+            showErrorDialog("Invalid line number");
+            throw new IllegalArgumentException("Invalid line number");
+        }
     }
 }

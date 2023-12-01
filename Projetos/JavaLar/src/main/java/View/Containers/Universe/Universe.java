@@ -34,7 +34,6 @@ public class Universe extends JPanel {
     private void setSetup() {
         setLayout(new GridLayout(15, 15, 3, 3));
         setOpaque(false);
-        setBorder(new LineBorder(Color.red, 1));
         setPreferredSize(new Dimension(700, 700));
     }
 

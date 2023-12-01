@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="da_java@da_java.mysql.dbaas.com.br" uuid="1f22c198-7560-4327-85eb-53ac196cf159">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://da_java.mysql.dbaas.com.br:3306/da_java</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-  </component>
+	<component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+		<data-source source="LOCAL" name="da_java@da_java.mysql.dbaas.com.br"
+			uuid="1f22c198-7560-4327-85eb-53ac196cf159">
+			<driver-ref>mysql.8</driver-ref>
+			<synchronize>true</synchronize>
+			<jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+			<jdbc-url>jdbc:mysql://da_java.mysql.dbaas.com.br:3306/da_java</jdbc-url>
+			<working-dir>$ProjectFileDir$</working-dir>
+		</data-source>
+	</component>
 </project>
